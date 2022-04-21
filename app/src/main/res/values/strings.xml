@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GitHub ApiApp</string>
+    <string name="user_search_hint">Поиск пользователей на GitHub</string>
 </resources>
