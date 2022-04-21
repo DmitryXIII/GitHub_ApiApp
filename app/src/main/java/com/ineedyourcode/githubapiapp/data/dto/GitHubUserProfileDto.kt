@@ -1,0 +1,4 @@
+package com.ineedyourcode.githubapiapp.data.dto
+
+class GitHubUserProfileDto {
+}
