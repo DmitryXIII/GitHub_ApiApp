@@ -3,6 +3,7 @@ package com.ineedyourcode.githubapiapp.data.retrofit
 import com.google.gson.GsonBuilder
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserProfileDto
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserRepositoryDto
+import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Callback
@@ -21,21 +22,21 @@ class RetrofitGitHubRepository : IRetrofitGitHubRepository {
     }
 
     override fun getUser(login: String, callback: Callback<GitHubUserProfileDto>) {
-        retrofit.getUser(login)
+        retrofit.getUser(login).enqueue(callback)
     }
 
     override fun searchUsers(
         searchingRequest: String,
-        callback: Callback<List<GitHubUserProfileDto>>,
+        callback: Callback<GitHubUserSearchResultDto>,
     ) {
-        retrofit.searchUsers(searchingRequest)
+        retrofit.searchUsers(searchingRequest).enqueue(callback)
     }
 
     override fun getUserRepositories(
         login: String,
         callback: Callback<List<GitHubUserRepositoryDto>>,
     ) {
-        retrofit.getUserRepositories(login)
+        retrofit.getUserRepositories(login).enqueue(callback)
     }
 
     override fun getRepository(
@@ -43,7 +44,7 @@ class RetrofitGitHubRepository : IRetrofitGitHubRepository {
         repoName: String,
         callback: Callback<GitHubUserRepositoryDto>,
     ) {
-        retrofit.getRepository(repoOwnerLogin, repoName)
+        retrofit.getRepository(repoOwnerLogin, repoName).enqueue(callback)
     }
 
     private fun createConverterFactory(): GsonConverterFactory {

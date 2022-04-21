@@ -2,6 +2,7 @@ package com.ineedyourcode.githubapiapp.data.retrofit
 
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserProfileDto
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserRepositoryDto
+import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,7 +17,7 @@ interface RetrofitGitHubApi {
         @Query("q") searchingRequest: String,
         @Query("per_page") usersPerPage: Int = 10,
         @Query("page") page: Int = 1,
-    ): Call<List<GitHubUserProfileDto>>
+    ): Call<GitHubUserSearchResultDto>
 
     @GET("users/{user}/repos")
     fun getUserRepositories(
