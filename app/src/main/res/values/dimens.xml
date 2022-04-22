@@ -3,4 +3,8 @@
     <dimen name="zero">0dp</dimen>
     <dimen name="padding_16">16dp</dimen>
     <dimen name="margin_8">8dp</dimen>
+    <dimen name="user_search_item_height">100dp</dimen>
+    <dimen name="padding_4">4dp</dimen>
+    <dimen name="padding_8">8dp</dimen>
+    <dimen name="user_avatar_width">120dp</dimen>
 </resources>
