@@ -9,4 +9,5 @@ interface GitHubApi {
     fun searchUser(searchingRequest: String): GitHubUserSearchResult
     fun getUserRepositories(login: String): List<GitHubUserRepository>
     fun getRepository(repoOwnerLogin: String, repoName: String): GitHubUserRepository
+    fun getMostPopularUsers(): GitHubUserSearchResult
 }

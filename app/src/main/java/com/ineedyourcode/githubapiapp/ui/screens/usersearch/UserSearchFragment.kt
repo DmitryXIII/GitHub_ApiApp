@@ -35,6 +35,8 @@ class UserSearchFragment :
             renderData(it)
         }
 
+        viewModel.getMostPopularUsers()
+
         binding.userSearchInputLayout.setEndIconOnClickListener {
             viewModel.searchUsers(binding.userSearchEditText.text.toString())
         }

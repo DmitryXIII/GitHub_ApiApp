@@ -31,4 +31,10 @@ interface RetrofitGitHubApi {
         @Path("user") login: String,
         @Path("repoName") name: String,
     ): Call<GitHubUserRepositoryDto>
+
+    @GET("search/users?q=followers:>20000")
+    fun getMostPopularUsers(
+        @Query("per_page") usersPerPage: Int = 50,
+        @Query("page") page: Int = 1,
+    ): Call<GitHubUserSearchResultDto>
 }

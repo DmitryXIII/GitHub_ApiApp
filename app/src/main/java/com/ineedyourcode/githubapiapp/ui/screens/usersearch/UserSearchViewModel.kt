@@ -38,4 +38,26 @@ class UserSearchViewModel(
             }
         })
     }
+
+    fun getMostPopularUsers() {
+        liveData.postValue(UserSearchState.UserSearchProgress)
+        retrofitRepository.getMostPopularUsers(object : Callback<GitHubUserSearchResultDto> {
+            override fun onResponse(
+                call: Call<GitHubUserSearchResultDto>,
+                response: Response<GitHubUserSearchResultDto>,
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { result ->
+                        liveData.postValue(UserSearchState.UserSearchSuccess(result.items))
+                    }
+                } else {
+                    liveData.postValue(UserSearchState.UserSearchError("Нет результатов по данному запросу"))
+                }
+            }
+
+            override fun onFailure(call: Call<GitHubUserSearchResultDto>, t: Throwable) {
+                liveData.postValue(UserSearchState.UserSearchError(t.message.toString()))
+            }
+        })
+    }
 }

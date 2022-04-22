@@ -14,4 +14,6 @@ interface IRetrofitGitHubRepository {
     fun getUserRepositories(login: String, callback: Callback<List<GitHubUserRepositoryDto>>)
 
     fun getRepository(repoOwnerLogin: String, repoName: String, callback: Callback<GitHubUserRepositoryDto>)
+
+    fun getMostPopularUsers(callback: Callback<GitHubUserSearchResultDto>)
 }

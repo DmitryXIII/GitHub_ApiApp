@@ -47,6 +47,10 @@ class RetrofitGitHubRepository : IRetrofitGitHubRepository {
         retrofit.getRepository(repoOwnerLogin, repoName).enqueue(callback)
     }
 
+    override fun getMostPopularUsers(callback: Callback<GitHubUserSearchResultDto>) {
+        retrofit.getMostPopularUsers().enqueue(callback)
+    }
+
     private fun createConverterFactory(): GsonConverterFactory {
         return GsonConverterFactory.create(GsonBuilder().setLenient().create())
     }
