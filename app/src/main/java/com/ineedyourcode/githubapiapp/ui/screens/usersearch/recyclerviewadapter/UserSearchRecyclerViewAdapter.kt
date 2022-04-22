@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserProfileDto
+import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.OnRepositoryItemClickListener
+import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.UserDetailsRecyclerViewAdapter
 
 class UserSearchRecyclerViewAdapter(val onItemClickListener: OnUserSearchItemClickListener) :
     RecyclerView.Adapter<UserSearchRecyclerViewAdapter.UserSearchResultViewHolder>() {

@@ -22,6 +22,8 @@ interface RetrofitGitHubApi {
     @GET("users/{user}/repos")
     fun getUserRepositories(
         @Path("user") login: String,
+        @Query("per_page") usersPerPage: Int = 10,
+        @Query("page") page: Int = 1,
     ): Call<List<GitHubUserRepositoryDto>>
 
     @GET("repos/{user}/{repoName}")

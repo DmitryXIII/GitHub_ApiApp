@@ -26,6 +26,7 @@
         android:autoSizeTextType="uniform"
         android:background="@drawable/rectangle_shape"
         android:layout_margin="@dimen/margin_8"
+        android:paddingHorizontal="@dimen/padding_8"
         android:maxLines="1"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
         app:layout_constraintBottom_toBottomOf="@id/user_details_avatar_image_view"

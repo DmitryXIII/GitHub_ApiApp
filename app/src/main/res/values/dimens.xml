@@ -8,4 +8,6 @@
     <dimen name="padding_8">8dp</dimen>
     <dimen name="user_avatar_width">120dp</dimen>
     <dimen name="user_details_avatar_height">250dp</dimen>
+    <dimen name="repository_item_height">80dp</dimen>
+    <dimen name="shape_rectangle_corner_radius">8dp</dimen>
 </resources>
