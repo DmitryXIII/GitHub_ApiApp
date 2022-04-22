@@ -2,7 +2,6 @@ package com.ineedyourcode.githubapiapp.ui.screens.userdetails
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
