@@ -5,4 +5,6 @@
     <string name="user_details_created_at_title">Зарегистрирован:</string>
     <string name="user_details_public_repos_title">Публичные репозитории:</string>
     <string name="user_details_repos_header">Репозитории:</string>
+    <string name="repository_language">Язык:</string>
+    <string name="repository_details_url">URL:</string>
 </resources>

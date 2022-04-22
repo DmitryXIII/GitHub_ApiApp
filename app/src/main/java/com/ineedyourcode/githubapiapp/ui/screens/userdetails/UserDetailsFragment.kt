@@ -7,9 +7,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserDetailsBinding
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.OnRepositoryItemClickListener
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.UserDetailsRecyclerViewAdapter
+import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.UserRepositoryDetailsFragment
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 
 private const val ARG_USER_LOGIN = "ARG_USER_LOGIN"
@@ -59,8 +61,13 @@ class UserDetailsFragment :
                     adapter =
                         UserDetailsRecyclerViewAdapter(object : OnRepositoryItemClickListener {
                             override fun onUserSearchItemClickListener(repositoryName: String) {
-                                Toast.makeText(requireContext(), repositoryName, Toast.LENGTH_SHORT)
-                                    .show()
+                                parentFragmentManager
+                                    .beginTransaction()
+                                    .add(R.id.main_fragment_container_view,
+                                        UserRepositoryDetailsFragment.newInstance(userLogin,
+                                            repositoryName))
+                                    .addToBackStack("")
+                                    .commit()
                             }
 
                         }).apply {

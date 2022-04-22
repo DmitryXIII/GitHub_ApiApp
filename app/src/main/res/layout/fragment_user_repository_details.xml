@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_8">
+
+    <TextView
+        android:id="@+id/repository_details_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+        tools:text="@tools:sample/lorem" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"
+        android:gravity="start"
+        android:maxLines="1"
+        android:text="@string/user_details_id_title" />
+
+    <TextView
+        android:id="@+id/repository_details_id_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        tools:text="@tools:sample/lorem" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
+        android:text="@string/user_details_created_at_title" />
+
+    <TextView
+        android:id="@+id/repository_details_created_at_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        tools:text="@tools:sample/lorem" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
+        android:text="@string/repository_language" />
+
+    <TextView
+        android:id="@+id/repository_details_language_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        tools:text="@tools:sample/lorem" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"
+        android:maxLines="1"
+        android:text="@string/repository_details_url" />
+
+    <TextView
+        android:id="@+id/repository_details_html_url_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        tools:text="@tools:sample/lorem" />
+
+    <TextView
+        android:id="@+id/repository_details_description_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:maxLines="1"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        android:textStyle="italic"
+        tools:text="@tools:sample/lorem" />
+
+</LinearLayout>
