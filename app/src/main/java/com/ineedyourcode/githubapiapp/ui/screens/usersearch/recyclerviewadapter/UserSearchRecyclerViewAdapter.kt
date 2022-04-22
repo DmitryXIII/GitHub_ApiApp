@@ -28,15 +28,19 @@ class UserSearchRecyclerViewAdapter(val onItemClickListener: OnUserSearchItemCli
     override fun onBindViewHolder(holder: UserSearchResultViewHolder, position: Int) {
         holder.userLogin.text = userList[position].login
         holder.userAvatar.load(userList[position].avatarUrl)
-        holder.userAvatar.setOnClickListener {
-            onItemClickListener.onUserSearchItemClickListener(userList[position].login)
-        }
     }
 
     override fun getItemCount() = userList.size
 
     inner class UserSearchResultViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
+
+        init {
+            itemView.setOnClickListener {
+                onItemClickListener.onUserSearchItemClickListener(userList[adapterPosition].login)
+            }
+        }
+
         val userLogin: TextView = itemView.findViewById(R.id.user_login_text_view)
         val userAvatar: ImageView = itemView.findViewById(R.id.user_avatar_image_view)
     }

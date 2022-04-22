@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">GitHub ApiApp</string>
     <string name="user_search_hint">Поиск пользователей на GitHub</string>
+    <string name="user_details_id_title">ID:</string>
+    <string name="user_details_created_at_title">Зарегистрирован:</string>
+    <string name="user_details_public_repos_title">Публичные репозитории:</string>
+    <string name="user_details_repos_header">Репозитории:</string>
 </resources>
