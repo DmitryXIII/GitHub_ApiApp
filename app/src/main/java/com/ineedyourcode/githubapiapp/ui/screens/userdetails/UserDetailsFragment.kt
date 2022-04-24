@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.ineedyourcode.githubapiapp.App
@@ -13,6 +11,8 @@ import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserDetailsBinding
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.OnRepositoryItemClickListener
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.UserDetailsRecyclerViewAdapter
+import com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel.UserDetailsViewModel
+import com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel.UserDetailsViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.UserRepositoryDetailsFragment
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
@@ -25,12 +25,7 @@ class UserDetailsFragment :
     BaseFragment<FragmentUserDetailsBinding>(FragmentUserDetailsBinding::inflate) {
 
     private val viewModel: UserDetailsViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return UserDetailsViewModel(App.retrofitRepository) as T
-            }
-        }
+        UserDetailsViewModelFactory(App.retrofitRepository)
     }
 
     companion object {

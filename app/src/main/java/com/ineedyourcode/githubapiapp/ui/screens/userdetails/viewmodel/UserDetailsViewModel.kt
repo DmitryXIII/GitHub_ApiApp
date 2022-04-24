@@ -1,4 +1,4 @@
-package com.ineedyourcode.githubapiapp.ui.screens.userdetails
+package com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
 import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
+import com.ineedyourcode.githubapiapp.ui.screens.userdetails.UserDetailsState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import retrofit2.Call
 import retrofit2.Callback

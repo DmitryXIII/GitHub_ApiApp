@@ -1,10 +1,11 @@
-package com.ineedyourcode.githubapiapp.ui.screens.usersearch
+package com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
 import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
+import com.ineedyourcode.githubapiapp.ui.screens.usersearch.UserSearchState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import retrofit2.Call
 import retrofit2.Callback
