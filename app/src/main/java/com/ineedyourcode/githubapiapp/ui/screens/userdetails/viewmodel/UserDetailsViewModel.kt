@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
-import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
+import com.ineedyourcode.githubapiapp.domain.usecase.GetGitHubUserUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.UserDetailsState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import retrofit2.Call
@@ -13,7 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class UserDetailsViewModel(
-    private val retrofitRepository : GitHubApi,
+    private val retrofitRepository : GetGitHubUserUsecase,
     private val liveData: MutableLiveData<UserDetailsState> = MutableLiveData(),
 ) : ViewModel() {
 
@@ -29,7 +29,7 @@ class UserDetailsViewModel(
                 if (response.isSuccessful) {
                     response.body()?.let { user ->
                         liveData.postValue(UserDetailsState.UserDetailsSuccess(user))
-                        getUserRepositories(login)
+                        getUserGitHubRepositories(login)
                     }
                 } else {
                     liveData.postValue(UserDetailsState.UserDetailsError(
@@ -45,7 +45,7 @@ class UserDetailsViewModel(
         })
     }
 
-    private fun getUserRepositories(login: String) {
+    private fun getUserGitHubRepositories(login: String) {
         retrofitRepository.getUserGitHubRepositories(login,
             object : Callback<List<GitHubUserRepository>> {
                 override fun onResponse(

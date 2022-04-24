@@ -3,7 +3,7 @@ package com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.viewmode
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
-import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
+import com.ineedyourcode.githubapiapp.domain.usecase.GetGitHubRepositoryUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.UserGitHubRepositoryDetailsState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import retrofit2.Call
@@ -11,7 +11,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class UserGitHubRepositoryViewModel(
-    private val retrofitRepository: GitHubApi,
+    private val retrofitRepository: GetGitHubRepositoryUsecase,
     private val liveData: MutableLiveData<UserGitHubRepositoryDetailsState> = MutableLiveData(),
 ) : ViewModel() {
     fun getLiveData(): MutableLiveData<UserGitHubRepositoryDetailsState> = liveData

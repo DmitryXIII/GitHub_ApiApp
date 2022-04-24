@@ -1,18 +1,7 @@
 package com.ineedyourcode.githubapiapp.domain.githubapi
 
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
-import retrofit2.Callback
+import com.ineedyourcode.githubapiapp.domain.usecase.GetGitHubRepositoryUsecase
+import com.ineedyourcode.githubapiapp.domain.usecase.GetGitHubUserUsecase
+import com.ineedyourcode.githubapiapp.domain.usecase.SearchGitHubUserUsecase
 
-interface GitHubApi {
-    fun getUser(login: String, callback: Callback<GitHubUserProfile>)
-
-    fun searchUsers(searchingRequest: String, callback: Callback<GitHubUserSearchResult>)
-
-    fun getUserGitHubRepositories(login: String, callback: Callback<List<GitHubUserRepository>>)
-
-    fun getGitHubRepository(repoOwnerLogin: String, repoName: String, callback: Callback<GitHubUserRepository>)
-
-    fun getMostPopularUsers(callback: Callback<GitHubUserSearchResult>)
-}
+interface GitHubApi : SearchGitHubUserUsecase, GetGitHubUserUsecase, GetGitHubRepositoryUsecase
