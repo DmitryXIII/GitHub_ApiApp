@@ -14,6 +14,8 @@ import com.ineedyourcode.githubapiapp.ui.screens.userdetails.UserDetailsFragment
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.OnUserSearchItemClickListener
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.UserSearchRecyclerViewAdapter
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
+import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
+import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
 
 class UserSearchFragment :
     BaseFragment<FragmentUserSearchBinding>(FragmentUserSearchBinding::inflate) {
@@ -37,7 +39,7 @@ class UserSearchFragment :
                 parentFragmentManager
                     .beginTransaction()
                     .add(R.id.main_fragment_container_view, UserDetailsFragment.newInstance(login))
-                    .addToBackStack("")
+                    .addToBackStack(getString(R.string.empty_text))
                     .commit()
             }
         })
@@ -54,19 +56,25 @@ class UserSearchFragment :
     }
 
     private fun renderData(state: UserSearchState) {
-        when (state) {
-            UserSearchState.UserSearchProgress -> {}
-
-            is UserSearchState.UserSearchSuccess -> {
-                userSearchAdapter.setData(state.userList)
-                binding.userListRecyclerView.apply {
-                    layoutManager = LinearLayoutManager(requireContext())
-                    adapter = userSearchAdapter
+        with(binding) {
+            when (state) {
+                UserSearchState.UserSearchProgress -> {
+                    setInProgressStartScreenVisibility(progressBar, userSearchLayout)
                 }
-            }
 
-            is UserSearchState.UserSearchError -> {
-                Snackbar.make(binding.root, state.error, Snackbar.LENGTH_SHORT).show()
+                is UserSearchState.UserSearchSuccess -> {
+                    userSearchAdapter.setData(state.userList)
+                    userListRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(requireContext())
+                        adapter = userSearchAdapter
+                    }
+                    setInProgressEndScreenVisibility(progressBar, userSearchLayout)
+                }
+
+                is UserSearchState.UserSearchError -> {
+                    setInProgressEndScreenVisibility(progressBar, userSearchLayout)
+                    Snackbar.make(binding.root, state.error, Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }

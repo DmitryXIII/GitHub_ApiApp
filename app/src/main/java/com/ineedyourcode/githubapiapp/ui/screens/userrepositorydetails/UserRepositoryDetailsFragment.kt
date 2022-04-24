@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.ineedyourcode.githubapiapp.App
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserRepositoryDetailsBinding
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
+import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
+import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
 
 private const val ARG_REPOSITORY_OWNER = "ARG_REPOSITORY_OWNER"
 private const val ARG_REPOSITORY_NAME = "ARG_REPOSITORY_NAME"
@@ -52,19 +54,26 @@ class UserRepositoryDetailsFragment :
     }
 
     private fun renderData(state: UserRepositoryDetailsState) {
-        when (state) {
-            UserRepositoryDetailsState.UserRepositoryDetailsProgress -> {}
-            is UserRepositoryDetailsState.UserRepositoryDetailsSuccess -> {
-                with(binding) {
+        with(binding) {
+            when (state) {
+                UserRepositoryDetailsState.UserRepositoryDetailsProgress -> {
+                    setInProgressStartScreenVisibility(progressBar, userRepositoryDetailsLayout)
+                }
+
+                is UserRepositoryDetailsState.UserRepositoryDetailsSuccess -> {
                     repositoryDetailsNameTextView.text = state.repository.name
                     repositoryDetailsIdTextView.text = state.repository.id
                     repositoryDetailsCreatedAtTextView.text =
                         state.repository.createdAt.substring(0, 10)
                     repositoryDetailsLanguageTextView.text = state.repository.language
                     repositoryDetailsDescriptionTextView.text = state.repository.description
+                    setInProgressEndScreenVisibility(progressBar, userRepositoryDetailsLayout)
+                }
+
+                is UserRepositoryDetailsState.UserRepositoryDetailsError -> {
+                    setInProgressEndScreenVisibility(progressBar, userRepositoryDetailsLayout)
                 }
             }
-            is UserRepositoryDetailsState.UserRepositoryDetailsError -> {}
         }
     }
 }

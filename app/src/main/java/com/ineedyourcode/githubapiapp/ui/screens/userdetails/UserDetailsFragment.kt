@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.google.android.material.snackbar.Snackbar
 import com.ineedyourcode.githubapiapp.App
 import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserDetailsBinding
@@ -15,7 +16,8 @@ import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.UserDetailsRecyclerViewAdapter
 import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.UserRepositoryDetailsFragment
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
-
+import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
+import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
 
 private const val ARG_USER_LOGIN = "ARG_USER_LOGIN"
 
@@ -26,12 +28,10 @@ class UserDetailsFragment :
         object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-               return UserDetailsViewModel(App.retrofitRepository) as T
+                return UserDetailsViewModel(App.retrofitRepository) as T
             }
         }
     }
-
-    private var userLogin = ""
 
     companion object {
         fun newInstance(login: String): UserDetailsFragment {
@@ -51,45 +51,49 @@ class UserDetailsFragment :
     }
 
     private fun renderData(state: UserDetailsState) {
-        when (state) {
-            UserDetailsState.UserDetailsProgress -> {}
+        with(binding) {
+            when (state) {
+                UserDetailsState.UserDetailsProgress -> {
+                    setInProgressStartScreenVisibility(progressBar, userDetailsLayout)
+                }
 
-            is UserDetailsState.UserDetailsSuccess -> {
-                with(binding) {
+                is UserDetailsState.UserDetailsSuccess -> {
                     userDetailsAvatarImageView.load(state.user.avatarUrl)
                     userDetailsLoginTextView.text = state.user.login
                     userDetailsNameTextView.text = state.user.name
                     userDetailsIdTextView.text = state.user.id.toString()
                     userDetailsCreatedAtTextView.text = state.user.createdAt.substring(0, 10)
                     userDetailsPublicReposTextView.text = state.user.publicRepos.toString()
-                    userLogin = userDetailsLoginTextView.text.toString()
                 }
 
-            }
+                is UserDetailsState.UserRepositoriesSuccess -> {
+                    userRepositoriesListRecyclerView.apply {
+                        layoutManager = LinearLayoutManager(requireContext())
+                        adapter =
+                            UserDetailsRecyclerViewAdapter(object : OnRepositoryItemClickListener {
+                                override fun onUserSearchItemClickListener(repositoryName: String) {
+                                    parentFragmentManager
+                                        .beginTransaction()
+                                        .add(R.id.main_fragment_container_view,
+                                            UserRepositoryDetailsFragment.newInstance(
+                                                userDetailsLoginTextView.text.toString(),
+                                                repositoryName))
+                                        .addToBackStack("")
+                                        .commit()
+                                }
 
-            is UserDetailsState.UserRepositoriesSuccess -> {
-                binding.userRepositoriesListRecyclerView.apply {
-                    layoutManager = LinearLayoutManager(requireContext())
-                    adapter =
-                        UserDetailsRecyclerViewAdapter(object : OnRepositoryItemClickListener {
-                            override fun onUserSearchItemClickListener(repositoryName: String) {
-                                parentFragmentManager
-                                    .beginTransaction()
-                                    .add(R.id.main_fragment_container_view,
-                                        UserRepositoryDetailsFragment.newInstance(userLogin,
-                                            repositoryName))
-                                    .addToBackStack("")
-                                    .commit()
+                            }).apply {
+                                setData(state.repositoriesList)
                             }
-
-                        }).apply {
-                            setData(state.repositoriesList)
-                        }
+                        setInProgressEndScreenVisibility(progressBar, userDetailsLayout)
+                    }
                 }
 
+                is UserDetailsState.UserDetailsError -> {
+                    setInProgressEndScreenVisibility(progressBar, userDetailsLayout)
+                    Snackbar.make(root, state.error, Snackbar.LENGTH_SHORT).show()
+                }
             }
-
-            is UserDetailsState.UserDetailsError -> {}
         }
     }
 }

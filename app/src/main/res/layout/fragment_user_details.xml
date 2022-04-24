@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,135 +9,150 @@
     android:focusable="true"
     android:padding="@dimen/padding_8">
 
-    <ImageView
-        android:id="@+id/user_details_avatar_image_view"
-        android:layout_width="@dimen/zero"
-        android:layout_height="@dimen/user_details_avatar_height"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_search" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/user_details_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        tools:visibility="visible">
 
-    <TextView
-        android:id="@+id/user_details_login_text_view"
+        <ImageView
+            android:id="@+id/user_details_avatar_image_view"
+            android:layout_width="@dimen/zero"
+            android:layout_height="@dimen/user_details_avatar_height"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_search" />
+
+        <TextView
+            android:id="@+id/user_details_login_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_8"
+            android:autoSizeTextType="uniform"
+            android:background="@drawable/rectangle_shape"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/padding_8"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            app:layout_constraintBottom_toBottomOf="@id/user_details_avatar_image_view"
+            app:layout_constraintStart_toStartOf="@id/user_details_avatar_image_view"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/user_details_name_text_view"
+            android:layout_width="@dimen/zero"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:autoSizeTextType="uniform"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_details_avatar_image_view"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/user_details_id_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:gravity="start"
+            android:maxLines="1"
+            android:text="@string/user_details_id_title"
+            app:layout_constraintEnd_toStartOf="@id/user_details_id_text_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_details_name_text_view" />
+
+        <TextView
+            android:id="@+id/user_details_id_text_view"
+            android:layout_width="@dimen/zero"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_4"
+            android:autoSizeTextType="uniform"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="@id/user_details_id_title_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/user_details_id_title_text_view"
+            app:layout_constraintTop_toTopOf="@id/user_details_id_title_text_view"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/user_details_created_at_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:gravity="start"
+            android:maxLines="1"
+            android:text="@string/user_details_created_at_title"
+            app:layout_constraintEnd_toStartOf="@id/user_details_created_at_text_view"
+            app:layout_constraintStart_toStartOf="@id/user_details_id_title_text_view"
+            app:layout_constraintTop_toBottomOf="@id/user_details_id_title_text_view" />
+
+        <TextView
+            android:id="@+id/user_details_created_at_text_view"
+            android:layout_width="@dimen/zero"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_4"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="@id/user_details_created_at_title_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/user_details_created_at_title_text_view"
+            app:layout_constraintTop_toTopOf="@id/user_details_created_at_title_text_view"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/user_details_public_repos_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:gravity="start"
+            android:maxLines="1"
+            android:text="@string/user_details_public_repos_title"
+            app:layout_constraintEnd_toStartOf="@id/user_details_public_repos_text_view"
+            app:layout_constraintStart_toStartOf="@id/user_details_id_title_text_view"
+            app:layout_constraintTop_toBottomOf="@id/user_details_created_at_title_text_view" />
+
+        <TextView
+            android:id="@+id/user_details_public_repos_text_view"
+            android:layout_width="@dimen/zero"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_4"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="@id/user_details_public_repos_title_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/user_details_public_repos_title_text_view"
+            app:layout_constraintTop_toTopOf="@id/user_details_public_repos_title_text_view"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/user_details_repos_header_text_view"
+            android:layout_width="@dimen/zero"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/padding_8"
+            android:text="@string/user_details_repos_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_details_public_repos_title_text_view" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/user_repositories_list_recycler_view"
+            android:layout_width="@dimen/zero"
+            android:layout_height="@dimen/zero"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_details_repos_header_text_view" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autoSizeTextType="uniform"
-        android:background="@drawable/rectangle_shape"
-        android:layout_margin="@dimen/margin_8"
-        android:paddingHorizontal="@dimen/padding_8"
-        android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-        app:layout_constraintBottom_toBottomOf="@id/user_details_avatar_image_view"
-        app:layout_constraintStart_toStartOf="@id/user_details_avatar_image_view"
-        tools:text="@tools:sample/lorem" />
-
-    <TextView
-        android:id="@+id/user_details_name_text_view"
-        android:layout_width="@dimen/zero"
-        android:layout_height="wrap_content"
-        android:autoSizeTextType="uniform"
-        android:maxLines="1"
-        android:layout_marginTop="@dimen/margin_8"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_details_avatar_image_view"
-        tools:text="@tools:sample/lorem" />
-
-    <TextView
-        android:id="@+id/user_details_id_title_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoSizeTextType="uniform"
-        android:gravity="start"
-        android:maxLines="1"
-        android:text="@string/user_details_id_title"
-        app:layout_constraintEnd_toStartOf="@id/user_details_id_text_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_details_name_text_view" />
-
-    <TextView
-        android:id="@+id/user_details_id_text_view"
-        android:layout_width="@dimen/zero"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_4"
-        android:autoSizeTextType="uniform"
-        android:maxLines="1"
-        app:layout_constraintBottom_toBottomOf="@id/user_details_id_title_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/user_details_id_title_text_view"
-        app:layout_constraintTop_toTopOf="@id/user_details_id_title_text_view"
-        tools:text="@tools:sample/lorem" />
-
-    <TextView
-        android:id="@+id/user_details_created_at_title_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoSizeTextType="uniform"
-        android:gravity="start"
-        android:maxLines="1"
-        android:text="@string/user_details_created_at_title"
-        app:layout_constraintEnd_toStartOf="@id/user_details_created_at_text_view"
-        app:layout_constraintStart_toStartOf="@id/user_details_id_title_text_view"
-        app:layout_constraintTop_toBottomOf="@id/user_details_id_title_text_view" />
-
-    <TextView
-        android:id="@+id/user_details_created_at_text_view"
-        android:layout_width="@dimen/zero"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_4"
-        android:maxLines="1"
-        app:layout_constraintBottom_toBottomOf="@id/user_details_created_at_title_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/user_details_created_at_title_text_view"
-        app:layout_constraintTop_toTopOf="@id/user_details_created_at_title_text_view"
-        tools:text="@tools:sample/lorem" />
-
-    <TextView
-        android:id="@+id/user_details_public_repos_title_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoSizeTextType="uniform"
-        android:gravity="start"
-        android:maxLines="1"
-        android:text="@string/user_details_public_repos_title"
-        app:layout_constraintEnd_toStartOf="@id/user_details_public_repos_text_view"
-        app:layout_constraintStart_toStartOf="@id/user_details_id_title_text_view"
-        app:layout_constraintTop_toBottomOf="@id/user_details_created_at_title_text_view" />
-
-    <TextView
-        android:id="@+id/user_details_public_repos_text_view"
-        android:layout_width="@dimen/zero"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_4"
-        android:maxLines="1"
-        app:layout_constraintBottom_toBottomOf="@id/user_details_public_repos_title_text_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/user_details_public_repos_title_text_view"
-        app:layout_constraintTop_toTopOf="@id/user_details_public_repos_title_text_view"
-        tools:text="@tools:sample/lorem" />
-
-    <TextView
-        android:id="@+id/user_details_repos_header_text_view"
-        android:layout_width="@dimen/zero"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/padding_8"
-        android:text="@string/user_details_repos_header"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_details_public_repos_title_text_view" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/user_repositories_list_recycler_view"
-        android:layout_width="@dimen/zero"
-        android:layout_height="@dimen/zero"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_details_repos_header_text_view" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_gravity="center" />
+</FrameLayout>
