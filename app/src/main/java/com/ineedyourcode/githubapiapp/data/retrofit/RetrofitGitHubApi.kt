@@ -1,8 +1,8 @@
 package com.ineedyourcode.githubapiapp.data.retrofit
 
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserProfileDto
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserRepositoryDto
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -10,31 +10,31 @@ import retrofit2.http.Query
 
 interface RetrofitGitHubApi {
     @GET("users/{user}")
-    fun getUser(@Path("user") login: String): Call<GitHubUserProfileDto>
+    fun getUser(@Path("user") login: String): Call<GitHubUserProfile>
 
     @GET("search/users")
     fun searchUsers(
         @Query("q") searchingRequest: String,
         @Query("per_page") usersPerPage: Int = 10,
         @Query("page") page: Int = 1,
-    ): Call<GitHubUserSearchResultDto>
+    ): Call<GitHubUserSearchResult>
 
     @GET("users/{user}/repos")
-    fun getUserRepositories(
+    fun getUserGitHubRepositories(
         @Path("user") login: String,
         @Query("per_page") usersPerPage: Int = 10,
         @Query("page") page: Int = 1,
-    ): Call<List<GitHubUserRepositoryDto>>
+    ): Call<List<GitHubUserRepository>>
 
     @GET("repos/{user}/{repoName}")
-    fun getRepository(
+    fun getGitHubRepository(
         @Path("user") login: String,
         @Path("repoName") name: String,
-    ): Call<GitHubUserRepositoryDto>
+    ): Call<GitHubUserRepository>
 
     @GET("search/users?q=followers:>20000")
     fun getMostPopularUsers(
         @Query("per_page") usersPerPage: Int = 50,
         @Query("page") page: Int = 1,
-    ): Call<GitHubUserSearchResultDto>
+    ): Call<GitHubUserSearchResult>
 }

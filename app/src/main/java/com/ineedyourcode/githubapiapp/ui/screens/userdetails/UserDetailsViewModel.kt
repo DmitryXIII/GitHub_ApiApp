@@ -3,16 +3,16 @@ package com.ineedyourcode.githubapiapp.ui.screens.userdetails
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserProfileDto
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserRepositoryDto
-import com.ineedyourcode.githubapiapp.data.retrofit.IRetrofitGitHubRepository
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
+import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class UserDetailsViewModel(
-    private val retrofitRepository: IRetrofitGitHubRepository,
+    private val retrofitRepository : GitHubApi,
     private val liveData: MutableLiveData<UserDetailsState> = MutableLiveData(),
 ) : ViewModel() {
 
@@ -20,10 +20,10 @@ class UserDetailsViewModel(
 
     fun getUser(login: String) {
         liveData.postValue(UserDetailsState.UserDetailsProgress)
-        retrofitRepository.getUser(login, object : Callback<GitHubUserProfileDto> {
+        retrofitRepository.getUser(login, object : Callback<GitHubUserProfile> {
             override fun onResponse(
-                call: Call<GitHubUserProfileDto>,
-                response: Response<GitHubUserProfileDto>,
+                call: Call<GitHubUserProfile>,
+                response: Response<GitHubUserProfile>,
             ) {
                 if (response.isSuccessful) {
                     response.body()?.let { user ->
@@ -37,7 +37,7 @@ class UserDetailsViewModel(
                 }
             }
 
-            override fun onFailure(call: Call<GitHubUserProfileDto>, t: Throwable) {
+            override fun onFailure(call: Call<GitHubUserProfile>, t: Throwable) {
                 liveData.postValue(UserDetailsState.UserDetailsError(
                     MessageMapper.DirectString(t.message.toString())))
             }
@@ -45,11 +45,11 @@ class UserDetailsViewModel(
     }
 
     private fun getUserRepositories(login: String) {
-        retrofitRepository.getUserRepositories(login,
-            object : Callback<List<GitHubUserRepositoryDto>> {
+        retrofitRepository.getUserGitHubRepositories(login,
+            object : Callback<List<GitHubUserRepository>> {
                 override fun onResponse(
-                    call: Call<List<GitHubUserRepositoryDto>>,
-                    response: Response<List<GitHubUserRepositoryDto>>,
+                    call: Call<List<GitHubUserRepository>>,
+                    response: Response<List<GitHubUserRepository>>,
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.let { repositoriesList ->
@@ -63,7 +63,7 @@ class UserDetailsViewModel(
                     }
                 }
 
-                override fun onFailure(call: Call<List<GitHubUserRepositoryDto>>, t: Throwable) {
+                override fun onFailure(call: Call<List<GitHubUserRepository>>, t: Throwable) {
                     liveData.postValue(UserDetailsState.UserDetailsError(
                         MessageMapper.DirectString(t.message.toString())))
                 }

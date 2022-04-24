@@ -1,9 +1,10 @@
 package com.ineedyourcode.githubapiapp.data.retrofit
 
 import com.google.gson.GsonBuilder
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserProfileDto
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserRepositoryDto
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
+import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Callback
@@ -12,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://api.github.com/"
 
-class RetrofitGitHubRepository : IRetrofitGitHubRepository {
+class RetrofitGitHubRepository : GitHubApi {
     private val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -21,33 +22,30 @@ class RetrofitGitHubRepository : IRetrofitGitHubRepository {
             .build().create(RetrofitGitHubApi::class.java)
     }
 
-    override fun getUser(login: String, callback: Callback<GitHubUserProfileDto>) {
+    override fun getUser(login: String, callback: Callback<GitHubUserProfile>) {
         retrofit.getUser(login).enqueue(callback)
     }
 
-    override fun searchUsers(
-        searchingRequest: String,
-        callback: Callback<GitHubUserSearchResultDto>,
-    ) {
+    override fun searchUsers(searchingRequest: String, callback: Callback<GitHubUserSearchResult>) {
         retrofit.searchUsers(searchingRequest).enqueue(callback)
     }
 
-    override fun getUserRepositories(
+    override fun getUserGitHubRepositories(
         login: String,
-        callback: Callback<List<GitHubUserRepositoryDto>>,
+        callback: Callback<List<GitHubUserRepository>>,
     ) {
-        retrofit.getUserRepositories(login).enqueue(callback)
+        retrofit.getUserGitHubRepositories(login).enqueue(callback)
     }
 
-    override fun getRepository(
+    override fun getGitHubRepository(
         repoOwnerLogin: String,
         repoName: String,
-        callback: Callback<GitHubUserRepositoryDto>,
+        callback: Callback<GitHubUserRepository>,
     ) {
-        retrofit.getRepository(repoOwnerLogin, repoName).enqueue(callback)
+        retrofit.getGitHubRepository(repoOwnerLogin, repoName).enqueue(callback)
     }
 
-    override fun getMostPopularUsers(callback: Callback<GitHubUserSearchResultDto>) {
+    override fun getMostPopularUsers(callback: Callback<GitHubUserSearchResult>) {
         retrofit.getMostPopularUsers().enqueue(callback)
     }
 

@@ -6,14 +6,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.ineedyourcode.githubapiapp.App
 import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserSearchBinding
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.UserDetailsFragment
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.OnUserSearchItemClickListener
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.UserSearchRecyclerViewAdapter
-import com.ineedyourcode.githubapiapp.ui.utils.*
+import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
+import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
+import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
+import com.ineedyourcode.githubapiapp.ui.utils.showErrorSnack
 
 class UserSearchFragment :
     BaseFragment<FragmentUserSearchBinding>(FragmentUserSearchBinding::inflate) {

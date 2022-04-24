@@ -3,15 +3,15 @@ package com.ineedyourcode.githubapiapp.ui.screens.usersearch
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
-import com.ineedyourcode.githubapiapp.data.retrofit.IRetrofitGitHubRepository
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
+import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class UserSearchViewModel(
-    private val retrofitRepository: IRetrofitGitHubRepository,
+    private val retrofitRepository: GitHubApi,
     private val liveData: MutableLiveData<UserSearchState> = MutableLiveData(),
 ) : ViewModel() {
 
@@ -19,10 +19,10 @@ class UserSearchViewModel(
 
     fun searchUsers(login: String) {
         liveData.postValue(UserSearchState.UserSearchProgress)
-        retrofitRepository.searchUsers(login, object : Callback<GitHubUserSearchResultDto> {
+        retrofitRepository.searchUsers(login, object : Callback<GitHubUserSearchResult> {
             override fun onResponse(
-                call: Call<GitHubUserSearchResultDto>,
-                response: Response<GitHubUserSearchResultDto>,
+                call: Call<GitHubUserSearchResult>,
+                response: Response<GitHubUserSearchResult>,
             ) {
                 if (response.isSuccessful) {
                     response.body()?.let { result ->
@@ -41,7 +41,7 @@ class UserSearchViewModel(
                 }
             }
 
-            override fun onFailure(call: Call<GitHubUserSearchResultDto>, t: Throwable) {
+            override fun onFailure(call: Call<GitHubUserSearchResult>, t: Throwable) {
                 liveData.postValue(UserSearchState.UserSearchError(
                     MessageMapper.DirectString(t.message.toString())))
             }
@@ -51,10 +51,10 @@ class UserSearchViewModel(
     fun getMostPopularUsers() {
         liveData.postValue(UserSearchState.UserSearchProgress)
         retrofitRepository.getMostPopularUsers(object :
-            Callback<GitHubUserSearchResultDto> {
+            Callback<GitHubUserSearchResult> {
             override fun onResponse(
-                call: Call<GitHubUserSearchResultDto>,
-                response: Response<GitHubUserSearchResultDto>,
+                call: Call<GitHubUserSearchResult>,
+                response: Response<GitHubUserSearchResult>,
             ) {
                 if (response.isSuccessful) {
                     response.body()?.let { result ->
@@ -67,7 +67,7 @@ class UserSearchViewModel(
                 }
             }
 
-            override fun onFailure(call: Call<GitHubUserSearchResultDto>, t: Throwable) {
+            override fun onFailure(call: Call<GitHubUserSearchResult>, t: Throwable) {
                 liveData.postValue(UserSearchState.UserSearchError(
                     MessageMapper.DirectString(t.message.toString())))
             }
