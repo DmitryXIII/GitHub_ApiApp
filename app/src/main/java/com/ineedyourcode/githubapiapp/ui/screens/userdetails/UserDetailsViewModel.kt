@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserProfileDto
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserRepositoryDto
 import com.ineedyourcode.githubapiapp.data.retrofit.IRetrofitGitHubRepository
+import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,34 +31,42 @@ class UserDetailsViewModel(
                         getUserRepositories(login)
                     }
                 } else {
-                    liveData.postValue(UserDetailsState.UserDetailsError("Нет результатов по данному запросу"))
+                    liveData.postValue(UserDetailsState.UserDetailsError(
+                        MessageMapper.StringResource(
+                            MessageMapper.ResponseState.RESPONSE_IS_EMPTY)))
                 }
             }
 
             override fun onFailure(call: Call<GitHubUserProfileDto>, t: Throwable) {
-                liveData.postValue(UserDetailsState.UserDetailsError(t.message.toString()))
+                liveData.postValue(UserDetailsState.UserDetailsError(
+                    MessageMapper.DirectString(t.message.toString())))
             }
         })
     }
 
     private fun getUserRepositories(login: String) {
-        retrofitRepository.getUserRepositories(login, object : Callback<List<GitHubUserRepositoryDto>> {
-            override fun onResponse(
-                call: Call<List<GitHubUserRepositoryDto>>,
-                response: Response<List<GitHubUserRepositoryDto>>,
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.let { repositoriesList ->
-                        liveData.postValue(UserDetailsState.UserRepositoriesSuccess(repositoriesList))
+        retrofitRepository.getUserRepositories(login,
+            object : Callback<List<GitHubUserRepositoryDto>> {
+                override fun onResponse(
+                    call: Call<List<GitHubUserRepositoryDto>>,
+                    response: Response<List<GitHubUserRepositoryDto>>,
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { repositoriesList ->
+                            liveData.postValue(UserDetailsState.UserRepositoriesSuccess(
+                                repositoriesList))
+                        }
+                    } else {
+                        liveData.postValue(UserDetailsState.UserDetailsError(
+                            MessageMapper.StringResource(
+                                MessageMapper.ResponseState.RESPONSE_IS_EMPTY)))
                     }
-                } else {
-                    liveData.postValue(UserDetailsState.UserDetailsError("Нет результатов по данному запросу"))
                 }
-            }
 
-            override fun onFailure(call: Call<List<GitHubUserRepositoryDto>>, t: Throwable) {
-                liveData.postValue(UserDetailsState.UserDetailsError(t.message.toString()))
-            }
-        })
+                override fun onFailure(call: Call<List<GitHubUserRepositoryDto>>, t: Throwable) {
+                    liveData.postValue(UserDetailsState.UserDetailsError(
+                        MessageMapper.DirectString(t.message.toString())))
+                }
+            })
     }
 }

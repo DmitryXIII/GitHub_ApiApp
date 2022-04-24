@@ -10,10 +10,15 @@ import com.ineedyourcode.githubapiapp.databinding.FragmentUserSearchRecyclerView
 
 class UserSearchRecyclerViewAdapter(val onItemClickListener: OnUserSearchItemClickListener) :
     RecyclerView.Adapter<UserSearchRecyclerViewAdapter.UserSearchResultViewHolder>() {
-    private var userList = mutableListOf<GitHubUserProfileDto>()
+    private var userList = listOf<GitHubUserProfileDto>()
 
     fun setData(mUserList: List<GitHubUserProfileDto>) {
-        userList = mUserList as MutableList<GitHubUserProfileDto>
+        userList = mUserList
+    }
+
+    fun clearData() {
+        notifyItemRangeRemoved(0, userList.size)
+        userList = listOf()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserSearchResultViewHolder {

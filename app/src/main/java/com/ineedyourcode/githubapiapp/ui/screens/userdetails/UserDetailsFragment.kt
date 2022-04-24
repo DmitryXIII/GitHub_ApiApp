@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.google.android.material.snackbar.Snackbar
 import com.ineedyourcode.githubapiapp.App
 import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserDetailsBinding
@@ -18,6 +17,7 @@ import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.UserRepos
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
+import com.ineedyourcode.githubapiapp.ui.utils.showErrorSnack
 
 private const val ARG_USER_LOGIN = "ARG_USER_LOGIN"
 
@@ -91,7 +91,7 @@ class UserDetailsFragment :
 
                 is UserDetailsState.UserDetailsError -> {
                     setInProgressEndScreenVisibility(progressBar, userDetailsLayout)
-                    Snackbar.make(root, state.error, Snackbar.LENGTH_SHORT).show()
+                    showErrorSnack(root, state.error)
                 }
             }
         }

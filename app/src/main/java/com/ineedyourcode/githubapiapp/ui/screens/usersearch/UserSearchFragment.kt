@@ -13,9 +13,7 @@ import com.ineedyourcode.githubapiapp.databinding.FragmentUserSearchBinding
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.UserDetailsFragment
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.OnUserSearchItemClickListener
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.UserSearchRecyclerViewAdapter
-import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
-import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
-import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
+import com.ineedyourcode.githubapiapp.ui.utils.*
 
 class UserSearchFragment :
     BaseFragment<FragmentUserSearchBinding>(FragmentUserSearchBinding::inflate) {
@@ -73,7 +71,8 @@ class UserSearchFragment :
 
                 is UserSearchState.UserSearchError -> {
                     setInProgressEndScreenVisibility(progressBar, userSearchLayout)
-                    Snackbar.make(binding.root, state.error, Snackbar.LENGTH_SHORT).show()
+                    userSearchAdapter.clearData()
+                    showErrorSnack(root, state.error)
                 }
             }
         }

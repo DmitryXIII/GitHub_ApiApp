@@ -11,6 +11,7 @@ import com.ineedyourcode.githubapiapp.databinding.FragmentUserRepositoryDetailsB
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
+import com.ineedyourcode.githubapiapp.ui.utils.showErrorSnack
 
 private const val ARG_REPOSITORY_OWNER = "ARG_REPOSITORY_OWNER"
 private const val ARG_REPOSITORY_NAME = "ARG_REPOSITORY_NAME"
@@ -72,6 +73,7 @@ class UserRepositoryDetailsFragment :
 
                 is UserRepositoryDetailsState.UserRepositoryDetailsError -> {
                     setInProgressEndScreenVisibility(progressBar, userRepositoryDetailsLayout)
+                    showErrorSnack(root, state.error)
                 }
             }
         }
