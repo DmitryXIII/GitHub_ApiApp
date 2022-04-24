@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.ineedyourcode.githubapiapp.App
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserRepositoryDetailsBinding
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 
@@ -13,7 +16,14 @@ private const val ARG_REPOSITORY_NAME = "ARG_REPOSITORY_NAME"
 class UserRepositoryDetailsFragment :
     BaseFragment<FragmentUserRepositoryDetailsBinding>(FragmentUserRepositoryDetailsBinding::inflate) {
 
-    private val viewModel by viewModels<UserRepositoryViewModel>()
+    private val viewModel: UserRepositoryViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return UserRepositoryViewModel(App.retrofitRepository) as T
+            }
+        }
+    }
 
     companion object {
         fun newInstance(

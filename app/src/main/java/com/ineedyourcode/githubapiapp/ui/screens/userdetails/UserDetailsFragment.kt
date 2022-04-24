@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.ineedyourcode.githubapiapp.App
 import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserDetailsBinding
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.OnRepositoryItemClickListener
@@ -13,11 +16,21 @@ import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter
 import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.UserRepositoryDetailsFragment
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 
+
 private const val ARG_USER_LOGIN = "ARG_USER_LOGIN"
 
 class UserDetailsFragment :
     BaseFragment<FragmentUserDetailsBinding>(FragmentUserDetailsBinding::inflate) {
-    private val viewModel by viewModels<UserDetailsViewModel>()
+
+    private val viewModel: UserDetailsViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+               return UserDetailsViewModel(App.retrofitRepository) as T
+            }
+        }
+    }
+
     private var userLogin = ""
 
     companion object {

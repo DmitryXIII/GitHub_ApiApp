@@ -5,14 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
 import com.ineedyourcode.githubapiapp.data.retrofit.IRetrofitGitHubRepository
-import com.ineedyourcode.githubapiapp.data.retrofit.RetrofitGitHubRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class UserSearchViewModel(
+    private val retrofitRepository: IRetrofitGitHubRepository,
     private val liveData: MutableLiveData<UserSearchState> = MutableLiveData(),
-    private val retrofitRepository: IRetrofitGitHubRepository = RetrofitGitHubRepository(),
 ) : ViewModel() {
 
     fun getLiveData(): LiveData<UserSearchState> = liveData

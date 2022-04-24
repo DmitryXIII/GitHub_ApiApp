@@ -1,7 +1,8 @@
-package com.ineedyourcode.githubapiapp
+package com.ineedyourcode.githubapiapp.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.UserSearchFragment
 
 class MainActivity : AppCompatActivity() {

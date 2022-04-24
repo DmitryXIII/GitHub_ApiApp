@@ -4,14 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserRepositoryDto
 import com.ineedyourcode.githubapiapp.data.retrofit.IRetrofitGitHubRepository
-import com.ineedyourcode.githubapiapp.data.retrofit.RetrofitGitHubRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class UserRepositoryViewModel(
+    private val retrofitRepository: IRetrofitGitHubRepository,
     private val liveData: MutableLiveData<UserRepositoryDetailsState> = MutableLiveData(),
-    private val retrofitRepository: IRetrofitGitHubRepository = RetrofitGitHubRepository(),
 ) : ViewModel() {
     fun getLiveData(): MutableLiveData<UserRepositoryDetailsState> = liveData
 
