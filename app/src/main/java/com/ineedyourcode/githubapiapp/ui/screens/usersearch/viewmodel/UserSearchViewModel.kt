@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
-import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 import com.ineedyourcode.githubapiapp.domain.usecase.SearchGitHubUserUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.UserSearchState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper

@@ -2,6 +2,7 @@ package com.ineedyourcode.githubapiapp.ui.screens.usersearch
 
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ineedyourcode.githubapiapp.App
@@ -12,10 +13,7 @@ import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.UserSearchRecyclerViewAdapter
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel.UserSearchViewModel
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel.UserSearchViewModelFactory
-import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
-import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
-import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
-import com.ineedyourcode.githubapiapp.ui.utils.showErrorSnack
+import com.ineedyourcode.githubapiapp.ui.utils.*
 
 class UserSearchFragment :
     BaseFragment<FragmentUserSearchBinding>(FragmentUserSearchBinding::inflate) {
@@ -47,9 +45,23 @@ class UserSearchFragment :
             viewModel.getMostPopularUsers()
         }
 
-        binding.userSearchInputLayout.setEndIconOnClickListener {
-            viewModel.searchUsers(binding.userSearchEditText.text.toString())
+        binding.userSearchEditText.setOnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_SEARCH -> {
+                    searchUserOnGitHub()
+                }
+            }
+            false
         }
+
+        binding.userSearchInputLayout.setEndIconOnClickListener {
+            searchUserOnGitHub()
+        }
+    }
+
+    private fun searchUserOnGitHub() {
+        binding.root.hideKeyboard()
+        viewModel.searchUsers(binding.userSearchEditText.text.toString())
     }
 
     private fun renderData(state: UserSearchState) {
