@@ -10,17 +10,17 @@ import retrofit2.http.Query
 
 interface RetrofitGitHubApi {
     @GET("users/{user}")
-    fun getUser(@Path("user") login: String): Call<GitHubUserProfile>
+    fun getGitHubUser(@Path("user") login: String): Call<GitHubUserProfile>
 
     @GET("search/users")
-    fun searchUsers(
+    fun searchUser(
         @Query("q") searchingRequest: String,
         @Query("per_page") usersPerPage: Int = 10,
         @Query("page") page: Int = 1,
     ): Call<GitHubUserSearchResult>
 
     @GET("users/{user}/repos")
-    fun getUserGitHubRepositories(
+    fun getGitHubUserRepositoriesList(
         @Path("user") login: String,
         @Query("per_page") usersPerPage: Int = 10,
         @Query("page") page: Int = 1,

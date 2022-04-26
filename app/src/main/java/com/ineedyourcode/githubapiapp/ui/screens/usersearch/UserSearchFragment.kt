@@ -61,7 +61,7 @@ class UserSearchFragment :
 
     private fun searchUserOnGitHub() {
         binding.root.hideKeyboard()
-        viewModel.searchUsers(binding.userSearchEditText.text.toString())
+        viewModel.searchGitHubUser(binding.userSearchEditText.text.toString())
     }
 
     private fun renderData(state: UserSearchState) {

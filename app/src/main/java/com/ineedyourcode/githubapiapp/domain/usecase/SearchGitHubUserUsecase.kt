@@ -1,9 +1,13 @@
 package com.ineedyourcode.githubapiapp.domain.usecase
 
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
-import retrofit2.Callback
+import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 
 interface SearchGitHubUserUsecase {
-    fun searchUsers(searchingRequest: String, callback: Callback<GitHubUserSearchResult>)
-    fun getMostPopularUsers(callback: Callback<GitHubUserSearchResult>)
+    fun searchUser(
+        searchingRequest: String,
+        callback: GitHubApi.GitHubCallback<GitHubUserSearchResult>,
+    )
+
+    fun getMostPopularUsers(callback: GitHubApi.GitHubCallback<GitHubUserSearchResult>)
 }

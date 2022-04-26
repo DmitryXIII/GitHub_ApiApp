@@ -7,7 +7,9 @@ import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
 import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -22,31 +24,115 @@ class RetrofitGitHubRepository : GitHubApi {
             .build().create(RetrofitGitHubApi::class.java)
     }
 
-    override fun getUser(login: String, callback: Callback<GitHubUserProfile>) {
-        retrofit.getUser(login).enqueue(callback)
+    override fun getMostPopularUsers(callback: GitHubApi.GitHubCallback<GitHubUserSearchResult>) {
+        retrofit.getMostPopularUsers().enqueue(object : Callback<GitHubUserSearchResult> {
+            override fun onResponse(
+                call: Call<GitHubUserSearchResult>,
+                response: Response<GitHubUserSearchResult>,
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { result ->
+                        callback.onSuccess(result)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<GitHubUserSearchResult>, error: Throwable) {
+                callback.onFail(error)
+            }
+        })
     }
 
-    override fun searchUsers(searchingRequest: String, callback: Callback<GitHubUserSearchResult>) {
-        retrofit.searchUsers(searchingRequest).enqueue(callback)
-    }
-
-    override fun getUserGitHubRepositories(
+    override fun getGitHubUser(
         login: String,
-        callback: Callback<List<GitHubUserRepository>>,
+        callback: GitHubApi.GitHubCallback<GitHubUserProfile>,
     ) {
-        retrofit.getUserGitHubRepositories(login).enqueue(callback)
+        retrofit.getGitHubUser(login).enqueue(object : Callback<GitHubUserProfile> {
+            override fun onResponse(
+                call: Call<GitHubUserProfile>,
+                response: Response<GitHubUserProfile>,
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { gitHubUserProfile ->
+                        callback.onSuccess(gitHubUserProfile)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<GitHubUserProfile>, error: Throwable) {
+                callback.onFail(error)
+            }
+        })
+    }
+
+    override fun getGitHubUserRepositoriesList(
+        login: String,
+        callback: GitHubApi.GitHubCallback<List<GitHubUserRepository>>,
+    ) {
+        retrofit.getGitHubUserRepositoriesList(login)
+            .enqueue(object : Callback<List<GitHubUserRepository>> {
+                override fun onResponse(
+                    call: Call<List<GitHubUserRepository>>,
+                    response: Response<List<GitHubUserRepository>>,
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { gitHubRepositoriesList ->
+                            callback.onSuccess(gitHubRepositoriesList)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<List<GitHubUserRepository>>, error: Throwable) {
+                    callback.onFail(error)
+                }
+
+            })
     }
 
     override fun getGitHubRepository(
         repoOwnerLogin: String,
         repoName: String,
-        callback: Callback<GitHubUserRepository>,
+        callback: GitHubApi.GitHubCallback<GitHubUserRepository>,
     ) {
-        retrofit.getGitHubRepository(repoOwnerLogin, repoName).enqueue(callback)
+        retrofit.getGitHubRepository(repoOwnerLogin, repoName)
+            .enqueue(object : Callback<GitHubUserRepository> {
+                override fun onResponse(
+                    call: Call<GitHubUserRepository>,
+                    response: Response<GitHubUserRepository>,
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.let { gitHubRepository ->
+                            callback.onSuccess(gitHubRepository)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<GitHubUserRepository>, error: Throwable) {
+                    callback.onFail(error)
+                }
+            })
     }
 
-    override fun getMostPopularUsers(callback: Callback<GitHubUserSearchResult>) {
-        retrofit.getMostPopularUsers().enqueue(callback)
+    override fun searchUser(
+        searchingRequest: String,
+        callback: GitHubApi.GitHubCallback<GitHubUserSearchResult>,
+    ) {
+        retrofit.searchUser(searchingRequest).enqueue(object : Callback<GitHubUserSearchResult> {
+            override fun onResponse(
+                call: Call<GitHubUserSearchResult>,
+                response: Response<GitHubUserSearchResult>,
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { gitHubUserSearchResult ->
+                        callback.onSuccess(gitHubUserSearchResult)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<GitHubUserSearchResult>, error: Throwable) {
+                callback.onFail(error)
+            }
+        })
     }
 
     private fun createConverterFactory(): GsonConverterFactory {
