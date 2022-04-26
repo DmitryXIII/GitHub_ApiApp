@@ -5,14 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.ineedyourcode.githubapiapp.data.dto.GitHubUserProfileDto
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserSearchRecyclerViewItemBinding
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 
 class UserSearchRecyclerViewAdapter(val onItemClickListener: OnUserSearchItemClickListener) :
     RecyclerView.Adapter<UserSearchRecyclerViewAdapter.UserSearchResultViewHolder>() {
-    private var userList = listOf<GitHubUserProfile>()
+    private var userList = listOf<GitHubUserProfileDto>()
 
-    fun setData(mUserList: List<GitHubUserProfile>) {
+    fun setData(mUserList: List<GitHubUserProfileDto>) {
         userList = mUserList
     }
 
@@ -38,7 +38,7 @@ class UserSearchRecyclerViewAdapter(val onItemClickListener: OnUserSearchItemCli
 
     inner class UserSearchResultViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
-        fun bind(user: GitHubUserProfile) {
+        fun bind(user: GitHubUserProfileDto) {
             FragmentUserSearchRecyclerViewItemBinding.bind(itemView).apply {
                 userLoginTextView.text = user.login
                 userAvatarImageView.load(user.avatarUrl)

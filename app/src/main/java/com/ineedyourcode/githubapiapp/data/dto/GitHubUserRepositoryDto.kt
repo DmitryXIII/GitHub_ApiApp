@@ -8,14 +8,14 @@ data class GitHubUserRepositoryDto(
     val private: Boolean,
     @SerializedName("html_url")
     val htmlUrl: String,
-    val description: String,
-    val language: String,
+    val description: String?,
+    val language: String? = "Язык не указан",
     @SerializedName("created_at")
-    val createdAt: String,
+    val createdAt: String?,
     @SerializedName("pushed_at")
-    val pushedAt: String,
+    val pushedAt: String?,
     @SerializedName("updated_at")
-    val updatedAt: String,
+    val updatedAt: String?,
     val owner: Owner,
 ) {
     data class Owner(

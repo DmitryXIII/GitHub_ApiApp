@@ -1,8 +1,14 @@
 package com.ineedyourcode.githubapiapp.data.usecase
 
-import com.ineedyourcode.githubapiapp.data.DataCallback
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
-import com.ineedyourcode.githubapiapp.domain.usecase.SearchGitHubUserUsecase
+import com.ineedyourcode.githubapiapp.data.repository.DataCallback
 
-interface DataSearchGitHubUserUsecase : SearchGitHubUserUsecase {
+interface DataSearchGitHubUserUsecase {
+    fun searchUser(
+        searchingRequest: String,
+        callback: DataCallback<GitHubUserSearchResultDto>,
+    )
+
+    fun getMostPopularUsers(callback: DataCallback<GitHubUserSearchResultDto>) {
+    }
 }

@@ -5,7 +5,11 @@ import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
 import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 
 interface GetGitHubUserUsecase {
-    fun getGitHubUser(login: String, callback: GitHubApi.GitHubCallback<GitHubUserProfile>)
+    fun getGitHubUser(
+        login: String, callback: GitHubApi.GitHubCallback<GitHubUserProfile>,
+    )
 
-    fun getGitHubUserRepositoriesList(login: String, callback: GitHubApi.GitHubCallback<List<GitHubUserRepository>>)
+    fun getGitHubUserRepositoriesList(
+        login: String, callback: GitHubApi.GitHubCallback<List<GitHubUserRepository>>,
+    )
 }

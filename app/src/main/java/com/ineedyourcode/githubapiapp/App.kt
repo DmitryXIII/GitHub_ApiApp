@@ -1,8 +1,8 @@
 package com.ineedyourcode.githubapiapp
 
 import android.app.Application
-import com.ineedyourcode.githubapiapp.data.DataRepository
-import com.ineedyourcode.githubapiapp.data.IDataRepository
+import com.ineedyourcode.githubapiapp.data.repository.DataRepository
+import com.ineedyourcode.githubapiapp.data.repository.IDataRepository
 
 class App : Application() {
 

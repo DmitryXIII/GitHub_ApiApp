@@ -1,4 +1,4 @@
-package com.ineedyourcode.githubapiapp.data.retrofit
+package com.ineedyourcode.githubapiapp.data.datasourse.retrofit
 
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository

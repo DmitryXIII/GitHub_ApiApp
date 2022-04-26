@@ -1,8 +1,6 @@
 package com.ineedyourcode.githubapiapp.ui.utils
 
-import android.content.Context
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar

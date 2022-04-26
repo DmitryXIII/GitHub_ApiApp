@@ -1,11 +1,12 @@
 package com.ineedyourcode.githubapiapp.data.usecase
 
-import com.ineedyourcode.githubapiapp.data.DataCallback
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserRepositoryDto
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
-import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
-import com.ineedyourcode.githubapiapp.domain.usecase.GetGitHubRepositoryUsecase
+import com.ineedyourcode.githubapiapp.data.repository.DataCallback
 
-interface DataGetGitHubRepositoryUsecase : GetGitHubRepositoryUsecase {
-
+interface DataGetGitHubRepositoryUsecase {
+    fun getGitHubRepository(
+        repoOwnerLogin: String,
+        repoName: String,
+        callback: DataCallback<GitHubUserRepositoryDto>,
+    )
 }

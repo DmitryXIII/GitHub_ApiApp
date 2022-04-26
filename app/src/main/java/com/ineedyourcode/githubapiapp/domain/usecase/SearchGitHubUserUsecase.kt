@@ -9,5 +9,7 @@ interface SearchGitHubUserUsecase {
         callback: GitHubApi.GitHubCallback<GitHubUserSearchResult>,
     )
 
-    fun getMostPopularUsers(callback: GitHubApi.GitHubCallback<GitHubUserSearchResult>)
+    fun getMostPopularUsers(
+        callback: GitHubApi.GitHubCallback<GitHubUserSearchResult>,
+    )
 }

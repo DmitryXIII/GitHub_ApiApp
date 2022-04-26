@@ -57,7 +57,7 @@ class UserDetailsFragment :
                     userDetailsLoginTextView.text = state.user.login
                     userDetailsNameTextView.text = state.user.name
                     userDetailsIdTextView.text = state.user.id.toString()
-                    userDetailsCreatedAtTextView.text = state.user.createdAt.substring(0, 10)
+                    userDetailsCreatedAtTextView.text = state.user.createdAt?.substring(0, 10)
                     userDetailsPublicReposTextView.text = state.user.publicRepos.toString()
                 }
 
