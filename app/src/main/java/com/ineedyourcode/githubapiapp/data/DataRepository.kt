@@ -1,22 +1,21 @@
 package com.ineedyourcode.githubapiapp.data
 
 import com.ineedyourcode.githubapiapp.data.mock.MockRepository
-import com.ineedyourcode.githubapiapp.data.retrofit.RetrofitGitHubRepository
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
 import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 
-class DataRepository : GitHubApi {
-    private val dataSource: GitHubApi = RetrofitGitHubRepository()
-//    private val dataSource: GitHubApi = MockRepository()
+class DataRepository : IDataRepository {
+    //    private val dataSource: IDataRepository = RetrofitGitHubRepository()
+    private val dataSource: IDataRepository = MockRepository()
 
     override fun searchUser(
         searchingRequest: String,
         callback: GitHubApi.GitHubCallback<GitHubUserSearchResult>,
     ) {
         dataSource.searchUser(searchingRequest,
-            object : GitHubApi.GitHubCallback<GitHubUserSearchResult> {
+            object : DataCallback<GitHubUserSearchResult> {
                 override fun onSuccess(result: GitHubUserSearchResult) {
                     callback.onSuccess(result)
                 }
@@ -28,7 +27,7 @@ class DataRepository : GitHubApi {
     }
 
     override fun getMostPopularUsers(callback: GitHubApi.GitHubCallback<GitHubUserSearchResult>) {
-        dataSource.getMostPopularUsers(object : GitHubApi.GitHubCallback<GitHubUserSearchResult> {
+        dataSource.getMostPopularUsers(object : DataCallback<GitHubUserSearchResult> {
             override fun onSuccess(result: GitHubUserSearchResult) {
                 callback.onSuccess(result)
             }
@@ -43,7 +42,7 @@ class DataRepository : GitHubApi {
         login: String,
         callback: GitHubApi.GitHubCallback<GitHubUserProfile>,
     ) {
-        dataSource.getGitHubUser(login, object : GitHubApi.GitHubCallback<GitHubUserProfile> {
+        dataSource.getGitHubUser(login, object : DataCallback<GitHubUserProfile> {
             override fun onSuccess(result: GitHubUserProfile) {
                 callback.onSuccess(result)
             }
@@ -59,7 +58,7 @@ class DataRepository : GitHubApi {
         callback: GitHubApi.GitHubCallback<List<GitHubUserRepository>>,
     ) {
         dataSource.getGitHubUserRepositoriesList(login,
-            object : GitHubApi.GitHubCallback<List<GitHubUserRepository>> {
+            object : DataCallback<List<GitHubUserRepository>> {
                 override fun onSuccess(result: List<GitHubUserRepository>) {
                     callback.onSuccess(result)
                 }
@@ -77,7 +76,7 @@ class DataRepository : GitHubApi {
     ) {
         dataSource.getGitHubRepository(repoOwnerLogin,
             repoName,
-            object : GitHubApi.GitHubCallback<GitHubUserRepository> {
+            object : DataCallback<GitHubUserRepository> {
                 override fun onSuccess(result: GitHubUserRepository) {
                     callback.onSuccess(result)
                 }

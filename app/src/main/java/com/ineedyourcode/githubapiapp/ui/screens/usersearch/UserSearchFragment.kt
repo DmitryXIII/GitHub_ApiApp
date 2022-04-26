@@ -19,7 +19,7 @@ class UserSearchFragment :
     BaseFragment<FragmentUserSearchBinding>(FragmentUserSearchBinding::inflate) {
 
     private val viewModel: UserSearchViewModel by viewModels {
-        UserSearchViewModelFactory(App.retrofitRepository)
+        UserSearchViewModelFactory(App.repository)
     }
 
     private lateinit var userSearchAdapter: UserSearchRecyclerViewAdapter

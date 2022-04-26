@@ -20,7 +20,7 @@ class UserRepositoryDetailsFragment :
     BaseFragment<FragmentUserRepositoryDetailsBinding>(FragmentUserRepositoryDetailsBinding::inflate) {
 
     private val viewModel: UserGitHubRepositoryViewModel by viewModels {
-        UserGitHubRepositoryDetailsViewModelFactory(App.retrofitRepository)
+        UserGitHubRepositoryDetailsViewModelFactory(App.repository)
     }
 
     companion object {

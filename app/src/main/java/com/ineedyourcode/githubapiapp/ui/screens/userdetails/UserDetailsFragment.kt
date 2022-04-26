@@ -25,7 +25,7 @@ class UserDetailsFragment :
     BaseFragment<FragmentUserDetailsBinding>(FragmentUserDetailsBinding::inflate) {
 
     private val viewModel: UserDetailsViewModel by viewModels {
-        UserDetailsViewModelFactory(App.retrofitRepository)
+        UserDetailsViewModelFactory(App.repository)
     }
 
     companion object {

@@ -3,13 +3,13 @@ package com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.ineedyourcode.githubapiapp.data.DataCallback
+import com.ineedyourcode.githubapiapp.data.usecase.DataSearchGitHubUserUsecase
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
-import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
-import com.ineedyourcode.githubapiapp.domain.usecase.SearchGitHubUserUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.UserSearchState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 
-class UserSearchViewModel(private val repository: SearchGitHubUserUsecase) : ViewModel() {
+class UserSearchViewModel(private val repository: DataSearchGitHubUserUsecase) : ViewModel() {
 
     private val liveData: MutableLiveData<UserSearchState> = MutableLiveData()
 
@@ -26,7 +26,7 @@ class UserSearchViewModel(private val repository: SearchGitHubUserUsecase) : Vie
     }
 
     private val callback = object :
-        GitHubApi.GitHubCallback<GitHubUserSearchResult> {
+        DataCallback<GitHubUserSearchResult> {
         override fun onSuccess(result: GitHubUserSearchResult) {
             liveData.postValue(UserSearchState.UserSearchSuccess(result.items))
         }

@@ -1,12 +1,13 @@
 package com.ineedyourcode.githubapiapp.data.mock
 
+import com.ineedyourcode.githubapiapp.data.IDataRepository
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
 import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 import java.lang.NullPointerException
 
-class MockRepository : GitHubApi {
+class MockRepository : IDataRepository {
     private val mockGitHubUserList = mutableListOf<GitHubUserProfile>()
     private val mockGitHubUserRepositoriesList = mutableListOf<GitHubUserRepository>()
 
