@@ -1,5 +1,6 @@
 package com.ineedyourcode.githubapiapp.data
 
+import com.ineedyourcode.githubapiapp.data.mock.MockRepository
 import com.ineedyourcode.githubapiapp.data.retrofit.RetrofitGitHubRepository
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
@@ -7,7 +8,8 @@ import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
 import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 
 class DataRepository : GitHubApi {
-    private val dataSource: RetrofitGitHubRepository = RetrofitGitHubRepository()
+    private val dataSource: GitHubApi = RetrofitGitHubRepository()
+//    private val dataSource: GitHubApi = MockRepository()
 
     override fun searchUser(
         searchingRequest: String,

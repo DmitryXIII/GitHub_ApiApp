@@ -61,6 +61,7 @@ class UserRepositoryDetailsFragment :
                     repositoryDetailsIdTextView.text = state.repository.id
                     repositoryDetailsCreatedAtTextView.text =
                         state.repository.createdAt.substring(0, 10)
+                    repositoryDetailsHtmlUrlTextView.text = state.repository.htmlUrl
                     repositoryDetailsLanguageTextView.text = state.repository.language
                     repositoryDetailsDescriptionTextView.text = state.repository.description
                     setInProgressEndScreenVisibility(progressBar, userRepositoryDetailsLayout)

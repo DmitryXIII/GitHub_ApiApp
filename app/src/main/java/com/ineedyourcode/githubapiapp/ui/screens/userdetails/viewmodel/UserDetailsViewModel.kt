@@ -22,13 +22,13 @@ class UserDetailsViewModel(
         liveData.postValue(UserDetailsState.UserDetailsProgress)
         repository.getGitHubUser(login, object : GitHubApi.GitHubCallback<GitHubUserProfile> {
             override fun onSuccess(result: GitHubUserProfile) {
-                liveData.postValue(UserDetailsState.UserDetailsSuccess(result))
+                liveData.value = UserDetailsState.UserDetailsSuccess(result)
                 getUserGitHubRepositories(login)
             }
 
             override fun onFail(error: Throwable) {
-                liveData.postValue(UserDetailsState.UserDetailsError(
-                    MessageMapper.DirectString(error.message.toString())))
+                liveData.value = UserDetailsState.UserDetailsError(
+                    MessageMapper.DirectString(error.message.toString()))
             }
         })
     }
