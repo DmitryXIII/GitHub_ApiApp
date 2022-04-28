@@ -20,7 +20,7 @@ private enum class DataSourceType {
 }
 
 class DataRepository : IDataRepository {
-    private val dataSourceType: DataSourceType = DataSourceType.DATA_SOURCE_TYPE_RETROFIT
+    private val dataSourceType: DataSourceType = DataSourceType.DATA_SOURCE_TYPE_MOCK
 
     private val dataSource = when (dataSourceType) {
         DataSourceType.DATA_SOURCE_TYPE_MOCK -> {
