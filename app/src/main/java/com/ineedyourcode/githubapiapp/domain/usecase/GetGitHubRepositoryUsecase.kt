@@ -1,12 +1,11 @@
 package com.ineedyourcode.githubapiapp.domain.usecase
 
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
-import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
+import io.reactivex.rxjava3.core.Single
 
 interface GetGitHubRepositoryUsecase {
     fun getGitHubRepository(
         repoOwnerLogin: String,
-        repoName: String,
-        callback: GitHubApi.GitHubCallback<GitHubUserRepository>,
-    )
+        repoName: String
+    ) : Single<GitHubUserRepository>
 }

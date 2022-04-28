@@ -3,38 +3,43 @@ package com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
-import com.ineedyourcode.githubapiapp.data.repository.DataCallback
 import com.ineedyourcode.githubapiapp.data.usecase.DataSearchGitHubUserUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.UserSearchState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class UserSearchViewModel(private val repository: DataSearchGitHubUserUsecase) : ViewModel() {
 
     private val liveData: MutableLiveData<UserSearchState> = MutableLiveData()
 
+    private val compositeDisposable = CompositeDisposable()
+
     fun getLiveData(): LiveData<UserSearchState> = liveData
 
     fun getMostPopularUsers() {
         liveData.postValue(UserSearchState.UserSearchProgress)
-        repository.getMostPopularUsers(callback)
+        compositeDisposable.add(repository.getMostPopularUsers().subscribeBy(
+            onSuccess = {liveData.postValue(UserSearchState.UserSearchSuccess(it.items))},
+            onError = {liveData.postValue(it.message?.let { message ->
+                MessageMapper.DirectString(message)
+            }?.let { message -> UserSearchState.UserSearchError(message) })}
+        ))
+
     }
 
     fun searchGitHubUser(searchingRequest: String) {
         liveData.postValue(UserSearchState.UserSearchProgress)
-        repository.searchUser(searchingRequest, callback)
+        compositeDisposable.add(repository.searchUser(searchingRequest).subscribeBy(
+            onSuccess = {liveData.postValue(UserSearchState.UserSearchSuccess(it.items))},
+            onError = {liveData.postValue(it.message?.let { message ->
+                MessageMapper.DirectString(message)
+            }?.let { message -> UserSearchState.UserSearchError(message) })}
+        ))
     }
 
-    private val callback = object :
-        DataCallback<GitHubUserSearchResultDto> {
-        override fun onSuccess(result: GitHubUserSearchResultDto) {
-            liveData.postValue(UserSearchState.UserSearchSuccess(result.items))
-        }
-
-        override fun onFail(error: Throwable) {
-            liveData.postValue(error.message?.let {
-                MessageMapper.DirectString(it)
-            }?.let { UserSearchState.UserSearchError(it) })
-        }
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
     }
 }

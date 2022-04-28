@@ -1,14 +1,10 @@
 package com.ineedyourcode.githubapiapp.data.usecase
 
 import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
-import com.ineedyourcode.githubapiapp.data.repository.DataCallback
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.core.SingleEmitter
 
 interface DataSearchGitHubUserUsecase {
-    fun searchUser(
-        searchingRequest: String,
-        callback: DataCallback<GitHubUserSearchResultDto>,
-    )
-
-    fun getMostPopularUsers(callback: DataCallback<GitHubUserSearchResultDto>) {
-    }
+    fun searchUser(searchingRequest: String): Single<GitHubUserSearchResultDto>
+    fun getMostPopularUsers(): Single<GitHubUserSearchResultDto>
 }

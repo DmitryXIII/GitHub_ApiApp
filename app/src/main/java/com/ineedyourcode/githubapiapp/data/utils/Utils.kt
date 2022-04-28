@@ -6,6 +6,7 @@ import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
+import java.time.format.DateTimeFormatter
 
 fun convertGitHubUserEntityToDto(user: GitHubUserProfile): GitHubUserProfileDto {
     return GitHubUserProfileDto(
@@ -49,4 +50,9 @@ fun convertGitHubUserRepositoriesEntityListToDto(
     gitHubRepositoriesListEntity: List<GitHubUserRepository>,
 ): List<GitHubUserRepositoryDto> {
     return gitHubRepositoriesListEntity.map { (convertGitHubUserRepositoryEntityToDto(it)) }
+}
+
+fun getUnixTime(epochSecond: Long): String {
+    return DateTimeFormatter.ISO_INSTANT
+        .format(java.time.Instant.ofEpochSecond(epochSecond)).toString()
 }
