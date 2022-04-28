@@ -22,7 +22,7 @@ class MockRepository : GitHubApi {
             if (searchingResult.totalCount > 0) {
                 emitter.onSuccess(searchingResult)
             } else {
-                emitter.onError(NullPointerException("По данному запросу нет результатов"))
+                emitter.onError(Exception("По данному запросу нет результатов"))
             }
         }
     }
@@ -33,7 +33,7 @@ class MockRepository : GitHubApi {
             if (mostPopularUserSearchResult.totalCount > 0) {
                 emitter.onSuccess(mostPopularUserSearchResult)
             } else {
-                emitter.onError(NullPointerException("По данному запросу нет результатов"))
+                emitter.onError(Exception("По данному запросу нет результатов"))
             }
         }
     }
@@ -49,7 +49,7 @@ class MockRepository : GitHubApi {
               }
           }
           if (!isUserFound) {
-              emitter.onError(NullPointerException("Пользователь не найден"))
+              emitter.onError(Exception("Пользователь не найден"))
           }
       }
 
@@ -65,7 +65,7 @@ class MockRepository : GitHubApi {
             if (foundRepositoriesList.isNotEmpty()) {
                 emitter.onSuccess(foundRepositoriesList)
             } else {
-                emitter.onError(NullPointerException("Ошибка получения данных"))
+                emitter.onError(Exception("Ошибка получения данных"))
             }
         }
     }
@@ -85,7 +85,7 @@ class MockRepository : GitHubApi {
             }
 
             if (!isRepositoryFound) {
-                emitter.onError(NullPointerException("Репозиторий не найден"))
+                emitter.onError(Exception("Репозиторий не найден"))
             }
         }
     }

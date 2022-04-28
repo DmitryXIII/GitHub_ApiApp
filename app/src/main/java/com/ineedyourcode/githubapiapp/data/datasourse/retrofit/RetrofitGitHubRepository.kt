@@ -1,6 +1,5 @@
 package com.ineedyourcode.githubapiapp.data.datasourse.retrofit
 
-import android.util.Log
 import com.google.gson.GsonBuilder
 import com.ineedyourcode.githubapiapp.data.utils.getUnixTime
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
@@ -34,13 +33,12 @@ class RetrofitGitHubRepository : GitHubApi {
                     call: Call<GitHubUserSearchResult>,
                     response: Response<GitHubUserSearchResult>,
                 ) {
-                    Log.d("HeadersTAG", response.headers()["x-ratelimit-limit"].toString())
                     if (response.isSuccessful) {
                         response.body()?.let { result ->
                             emitter.onSuccess(result)
                         }
                     } else {
-                        Log.d("HeadersTAG", response.headers()["x-ratelimit-limit"].toString())
+                        emitter.onError(Exception(checkLimits(response)))
                     }
                 }
 
@@ -63,10 +61,7 @@ class RetrofitGitHubRepository : GitHubApi {
                             emitter.onSuccess(gitHubUserProfile)
                         }
                     } else {
-                        val limit = response.headers()["x-ratelimit-limit"]
-                        val limitRemaining = response.headers()["x-ratelimit-remaining"]
-                        val resetTime = getUnixTime((response.headers()["x-ratelimit-reset"])!!.toLong())
-                        emitter.onError(Exception("$limit/$limitRemaining\n$resetTime"))
+                        emitter.onError(Exception(checkLimits(response)))
                     }
                 }
 
@@ -89,6 +84,8 @@ class RetrofitGitHubRepository : GitHubApi {
                             response.body()?.let { gitHubRepositoriesList ->
                                 emitter.onSuccess(gitHubRepositoriesList)
                             }
+                        } else {
+                            emitter.onError(Exception(checkLimits(response)))
                         }
                     }
 
@@ -116,6 +113,8 @@ class RetrofitGitHubRepository : GitHubApi {
                             response.body()?.let { gitHubRepository ->
                                 emitter.onSuccess(gitHubRepository)
                             }
+                        } else {
+                            emitter.onError(Exception(checkLimits(response)))
                         }
                     }
 
@@ -138,6 +137,8 @@ class RetrofitGitHubRepository : GitHubApi {
                             response.body()?.let { gitHubUserSearchResult ->
                                 emitter.onSuccess(gitHubUserSearchResult)
                             }
+                        } else {
+                            emitter.onError(Exception(checkLimits(response)))
                         }
                     }
 
@@ -156,5 +157,19 @@ class RetrofitGitHubRepository : GitHubApi {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
+    }
+
+    private fun <T> checkLimits(response: Response<T>): String {
+        val limitRemaining = response.headers()["x-ratelimit-remaining"]
+
+        val resetTime = response.headers()["x-ratelimit-reset"]?.let { epochSecond ->
+            getUnixTime(epochSecond.toLong())
+        }
+
+        return if (limitRemaining != null && limitRemaining.toInt() > 0) {
+            "По данному запросу нет результатов"
+        } else {
+            "Лимит запросов исчерпан. \nОбнуление лимитов: $resetTime"
+        }
     }
 }
