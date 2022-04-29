@@ -1,15 +1,15 @@
 package com.ineedyourcode.githubapiapp.data.utils
 
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserProfileDto
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserRepositoryDto
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
+import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto.GitHubUserProfileDto
+import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto.GitHubUserRepositoryDto
+import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto.GitHubUserSearchResultDto
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
 import java.time.format.DateTimeFormatter
 
-fun convertGitHubUserEntityToDto(user: GitHubUserProfile): GitHubUserProfileDto {
-    return GitHubUserProfileDto(
+fun convertGitHubUserDtoToEntity(user: GitHubUserProfileDto): GitHubUserProfile {
+    return GitHubUserProfile(
         user.avatarUrl,
         user.createdAt,
         user.htmlUrl,
@@ -21,10 +21,10 @@ fun convertGitHubUserEntityToDto(user: GitHubUserProfile): GitHubUserProfileDto 
         user.updatedAt)
 }
 
-fun convertGitHubUserRepositoryEntityToDto(
-    gitHubRepository: GitHubUserRepository,
-): GitHubUserRepositoryDto {
-    return GitHubUserRepositoryDto(
+fun convertGitHubUserRepositoryDtoToEntity(
+    gitHubRepository: GitHubUserRepositoryDto,
+): GitHubUserRepository {
+    return GitHubUserRepository(
         gitHubRepository.id,
         gitHubRepository.name,
         gitHubRepository.private,
@@ -34,25 +34,28 @@ fun convertGitHubUserRepositoryEntityToDto(
         gitHubRepository.createdAt,
         gitHubRepository.pushedAt,
         gitHubRepository.updatedAt,
-        GitHubUserRepositoryDto.Owner(gitHubRepository.owner.login))
+        GitHubUserRepository.Owner(gitHubRepository.owner.login))
 }
 
-fun convertGitHubSearchResultEntityToDto(
-    searchResult: GitHubUserSearchResult,
-): GitHubUserSearchResultDto {
-    return GitHubUserSearchResultDto(
+fun convertGitHubSearchResultDtoToEntity(
+    searchResult: GitHubUserSearchResultDto,
+): GitHubUserSearchResult {
+    return GitHubUserSearchResult(
         searchResult.totalCount,
         searchResult.incompleteResults,
-        searchResult.items.map { convertGitHubUserEntityToDto(it) })
+        searchResult.items.map { convertGitHubSearchItemDtoToEntity(it) })
 }
 
-fun convertGitHubUserRepositoriesEntityListToDto(
-    gitHubRepositoriesListEntity: List<GitHubUserRepository>,
-): List<GitHubUserRepositoryDto> {
-    return gitHubRepositoriesListEntity.map { (convertGitHubUserRepositoryEntityToDto(it)) }
+fun convertGitHubUserRepositoriesListDtoToEntity(
+    gitHubRepositoriesListEntity: List<GitHubUserRepositoryDto>,
+): List<GitHubUserRepository> {
+    return gitHubRepositoriesListEntity.map { (convertGitHubUserRepositoryDtoToEntity(it)) }
 }
 
-fun getUnixTime(epochSecond: Long): String {
-    return DateTimeFormatter.ISO_INSTANT
-        .format(java.time.Instant.ofEpochSecond(epochSecond)).toString()
+fun convertGitHubUserProfileToSearchItem(user: GitHubUserProfile): GitHubUserSearchResult.GitHubSearchItem {
+    return GitHubUserSearchResult.GitHubSearchItem(user.login, user.avatarUrl)
+}
+
+fun convertGitHubSearchItemDtoToEntity(searchItem: GitHubUserSearchResultDto.GitHubSearchItemDto): GitHubUserSearchResult.GitHubSearchItem {
+    return GitHubUserSearchResult.GitHubSearchItem(searchItem.login, searchItem.avatarUrl)
 }

@@ -2,14 +2,14 @@ package com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.viewmode
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ineedyourcode.githubapiapp.data.usecase.DataGetGitHubRepositoryUsecase
+import com.ineedyourcode.githubapiapp.domain.usecase.GetGitHubRepositoryUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.UserGitHubRepositoryDetailsState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class UserGitHubRepositoryViewModel(
-    private val repository: DataGetGitHubRepositoryUsecase,
+    private val repository: GetGitHubRepositoryUsecase,
 ) : ViewModel() {
 
     private val liveData: MutableLiveData<UserGitHubRepositoryDetailsState> = MutableLiveData()
