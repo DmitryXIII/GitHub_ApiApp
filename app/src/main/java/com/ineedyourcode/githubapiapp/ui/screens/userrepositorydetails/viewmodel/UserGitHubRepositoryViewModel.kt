@@ -21,9 +21,17 @@ class UserGitHubRepositoryViewModel(
     fun getGitHubRepository(owner: String, name: String) {
         liveData.postValue(UserGitHubRepositoryDetailsState.UserGitHubRepositoryDetailsProgress)
         compositeDisposable.add(repository.getGitHubRepository(owner, name).subscribeBy(
-            onSuccess = {
-                liveData.postValue(
-                    UserGitHubRepositoryDetailsState.UserGitHubRepositoryDetailsSuccess(it))
+            onSuccess = { gitHubRepository ->
+                if (gitHubRepository.id.isNotEmpty()) {
+                    liveData.postValue(
+                        UserGitHubRepositoryDetailsState.UserGitHubRepositoryDetailsSuccess(
+                            gitHubRepository))
+                } else {
+                    liveData.postValue(
+                        UserGitHubRepositoryDetailsState.UserGitHubRepositoryDetailsError(
+                            MessageMapper.StringResource(
+                                MessageMapper.ResponseState.RESPONSE_IS_EMPTY)))
+                }
             },
             onError = {
                 liveData.postValue(

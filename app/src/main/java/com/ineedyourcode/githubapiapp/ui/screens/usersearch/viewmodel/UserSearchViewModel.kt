@@ -20,10 +20,12 @@ class UserSearchViewModel(private val repository: DataSearchGitHubUserUsecase) :
     fun getMostPopularUsers() {
         liveData.postValue(UserSearchState.UserSearchProgress)
         compositeDisposable.add(repository.getMostPopularUsers().subscribeBy(
-            onSuccess = {liveData.postValue(UserSearchState.UserSearchSuccess(it.items))},
-            onError = {liveData.postValue(it.message?.let { message ->
-                MessageMapper.DirectString(message)
-            }?.let { message -> UserSearchState.UserSearchError(message) })}
+            onSuccess = { liveData.postValue(UserSearchState.UserSearchSuccess(it.items)) },
+            onError = {
+                liveData.postValue(it.message?.let { message ->
+                    MessageMapper.DirectString(message)
+                }?.let { message -> UserSearchState.UserSearchError(message) })
+            }
         ))
 
     }
@@ -31,10 +33,20 @@ class UserSearchViewModel(private val repository: DataSearchGitHubUserUsecase) :
     fun searchGitHubUser(searchingRequest: String) {
         liveData.postValue(UserSearchState.UserSearchProgress)
         compositeDisposable.add(repository.searchUser(searchingRequest).subscribeBy(
-            onSuccess = {liveData.postValue(UserSearchState.UserSearchSuccess(it.items))},
-            onError = {liveData.postValue(it.message?.let { message ->
-                MessageMapper.DirectString(message)
-            }?.let { message -> UserSearchState.UserSearchError(message) })}
+            onSuccess = { searchingResult ->
+                if (searchingResult.items.isNotEmpty()) {
+                    liveData.postValue(UserSearchState.UserSearchSuccess(searchingResult.items))
+                } else {
+                    liveData.postValue(
+                        UserSearchState.UserSearchError(MessageMapper.StringResource(
+                            MessageMapper.ResponseState.RESPONSE_IS_EMPTY)))
+                }
+            },
+            onError = {
+                liveData.postValue(it.message?.let { message ->
+                    MessageMapper.DirectString(message)
+                }?.let { message -> UserSearchState.UserSearchError(message) })
+            }
         ))
     }
 
