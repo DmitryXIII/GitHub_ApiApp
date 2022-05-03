@@ -9,10 +9,7 @@ import com.ineedyourcode.githubapiapp.data.utils.convertGitHubSearchResultEntity
 import com.ineedyourcode.githubapiapp.data.utils.convertGitHubUserEntityToDto
 import com.ineedyourcode.githubapiapp.data.utils.convertGitHubUserRepositoriesEntityListToDto
 import com.ineedyourcode.githubapiapp.data.utils.convertGitHubUserRepositoryEntityToDto
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
-import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
+import io.reactivex.rxjava3.core.Single
 
 private enum class DataSourceType {
     DATA_SOURCE_TYPE_MOCK,
@@ -32,80 +29,33 @@ class DataRepository : IDataRepository {
         }
     }
 
-    override fun searchUser(
-        searchingRequest: String,
-        callback: DataCallback<GitHubUserSearchResultDto>,
-    ) {
-        dataSource.searchUser(searchingRequest,
-            object : GitHubApi.GitHubCallback<GitHubUserSearchResult> {
-                override fun onSuccess(result: GitHubUserSearchResult) {
-                    callback.onSuccess(convertGitHubSearchResultEntityToDto(result))
-                }
-
-                override fun onFail(error: Throwable) {
-                    callback.onFail(error)
-                }
-            })
+    override fun searchUser(searchingRequest: String): Single<GitHubUserSearchResultDto> {
+        return dataSource.searchUser(searchingRequest)
+            .map { convertGitHubSearchResultEntityToDto(it) }
     }
 
-    override fun getMostPopularUsers(callback: DataCallback<GitHubUserSearchResultDto>) {
-        dataSource.getMostPopularUsers(object : GitHubApi.GitHubCallback<GitHubUserSearchResult> {
-            override fun onSuccess(result: GitHubUserSearchResult) {
-                callback.onSuccess(convertGitHubSearchResultEntityToDto(result))
-            }
-
-            override fun onFail(error: Throwable) {
-                callback.onFail(error)
-            }
-        })
+    override fun getMostPopularUsers(): Single<GitHubUserSearchResultDto> {
+        return dataSource.getMostPopularUsers()
+            .map { convertGitHubSearchResultEntityToDto(it) }
     }
 
-    override fun getGitHubUser(
-        login: String,
-        callback: DataCallback<GitHubUserProfileDto>,
-    ) {
-        dataSource.getGitHubUser(login, object : GitHubApi.GitHubCallback<GitHubUserProfile> {
-            override fun onSuccess(result: GitHubUserProfile) {
-                callback.onSuccess(convertGitHubUserEntityToDto(result))
-            }
-
-            override fun onFail(error: Throwable) {
-                callback.onFail(error)
-            }
-        })
+    override fun getGitHubUser(login: String): Single<GitHubUserProfileDto> {
+        return dataSource.getGitHubUser(login)
+            .map { convertGitHubUserEntityToDto(it) }
     }
 
     override fun getGitHubUserRepositoriesList(
         login: String,
-        callback: DataCallback<List<GitHubUserRepositoryDto>>,
-    ) {
-        dataSource.getGitHubUserRepositoriesList(login,
-            object : GitHubApi.GitHubCallback<List<GitHubUserRepository>> {
-                override fun onSuccess(result: List<GitHubUserRepository>) {
-                    callback.onSuccess(convertGitHubUserRepositoriesEntityListToDto(result))
-                }
-
-                override fun onFail(error: Throwable) {
-                    callback.onFail(error)
-                }
-            })
+    ): Single<List<GitHubUserRepositoryDto>> {
+        return dataSource.getGitHubUserRepositoriesList(login)
+            .map { convertGitHubUserRepositoriesEntityListToDto(it) }
     }
 
     override fun getGitHubRepository(
         repoOwnerLogin: String,
         repoName: String,
-        callback: DataCallback<GitHubUserRepositoryDto>,
-    ) {
-        dataSource.getGitHubRepository(repoOwnerLogin,
-            repoName,
-            object : GitHubApi.GitHubCallback<GitHubUserRepository> {
-                override fun onSuccess(result: GitHubUserRepository) {
-                    callback.onSuccess(convertGitHubUserRepositoryEntityToDto(result))
-                }
-
-                override fun onFail(error: Throwable) {
-                    callback.onFail(error)
-                }
-            })
+    ): Single<GitHubUserRepositoryDto> {
+        return dataSource.getGitHubRepository(repoOwnerLogin, repoName)
+            .map { convertGitHubUserRepositoryEntityToDto(it) }
     }
 }
