@@ -65,7 +65,7 @@ class UserSearchFragment :
     private fun checkIsActivityImplementsController() {
         if (activity !is UserSearchController) {
             throw IllegalStateException(
-                getString(R.string.activity_not_is_user_serch_controller))
+                getString(R.string.activity_not_is_user_search_controller))
         }
     }
 
