@@ -2,10 +2,13 @@ package com.ineedyourcode.githubapiapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.databinding.ActivityMainBinding
+import com.ineedyourcode.githubapiapp.ui.screens.userdetails.UserDetailsFragment
+import com.ineedyourcode.githubapiapp.ui.screens.usersearch.UserSearchController
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.UserSearchFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), UserSearchController {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,5 +22,13 @@ class MainActivity : AppCompatActivity() {
                 .replace(binding.mainFragmentContainerView.id, UserSearchFragment())
                 .commit()
         }
+    }
+
+    override fun showUserDetails(login: String) {
+        supportFragmentManager
+            .beginTransaction()
+            .add(binding.mainFragmentContainerView.id, UserDetailsFragment.newInstance(login))
+            .addToBackStack(getString(R.string.empty_text))
+            .commit()
     }
 }
