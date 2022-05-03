@@ -6,7 +6,6 @@ import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto.GitHubUserSea
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
-import java.time.format.DateTimeFormatter
 
 fun convertGitHubUserDtoToEntity(user: GitHubUserProfileDto): GitHubUserProfile {
     return GitHubUserProfile(
