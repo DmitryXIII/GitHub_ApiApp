@@ -30,7 +30,9 @@ class UserDetailsFragment :
 
     companion object {
         fun newInstance(login: String): UserDetailsFragment {
-            return UserDetailsFragment().apply { arguments = bundleOf(ARG_USER_LOGIN to login) }
+            return UserDetailsFragment().apply {
+                arguments = bundleOf(ARG_USER_LOGIN to login)
+            }
         }
     }
 
@@ -53,14 +55,12 @@ class UserDetailsFragment :
                 }
 
                 is UserDetailsState.UserDetailsSuccess -> {
-//                    viewModel.getUserGitHubRepositories(state.user.login)
                     userDetailsAvatarImageView.load(state.user.avatarUrl)
                     userDetailsLoginTextView.text = state.user.login
                     userDetailsNameTextView.text = state.user.name
                     userDetailsIdTextView.text = state.user.id.toString()
-                    userDetailsCreatedAtTextView.text = state.user.createdAt?.substring(0, 10)
+                    userDetailsCreatedAtTextView.text = state.user.createdAt.substring(0, 10)
                     userDetailsPublicReposTextView.text = state.user.publicRepos.toString()
-//                    setInProgressEndScreenVisibility(progressBar, userDetailsLayout)
                 }
 
                 is UserDetailsState.UserRepositoriesSuccess -> {
@@ -78,7 +78,6 @@ class UserDetailsFragment :
                                         .addToBackStack("")
                                         .commit()
                                 }
-
                             }).apply {
                                 setData(state.repositoriesList)
                             }

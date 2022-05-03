@@ -7,7 +7,7 @@ import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
 import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 import io.reactivex.rxjava3.core.Single
 
-class MockRepository : GitHubApi {
+class MockDataSource : GitHubApi {
     private val mockGitHubUserList = mutableListOf<GitHubUserProfile>()
     private val mockGitHubUserRepositoriesList = mutableListOf<GitHubUserRepository>()
 

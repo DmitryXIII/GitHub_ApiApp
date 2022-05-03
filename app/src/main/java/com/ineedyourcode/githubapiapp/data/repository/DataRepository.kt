@@ -1,7 +1,7 @@
 package com.ineedyourcode.githubapiapp.data.repository
 
-import com.ineedyourcode.githubapiapp.data.datasourse.mock.MockRepository
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.RetrofitGitHubRepository
+import com.ineedyourcode.githubapiapp.data.datasourse.mock.MockDataSource
+import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.RetrofitDataSource
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
@@ -18,11 +18,11 @@ class DataRepository : GitHubApi {
 
     private val dataSource = when (dataSourceType) {
         DataSourceType.MOCK -> {
-            MockRepository()
+            MockDataSource()
         }
 
         DataSourceType.RETROFIT -> {
-            RetrofitGitHubRepository()
+            RetrofitDataSource()
         }
     }
 
