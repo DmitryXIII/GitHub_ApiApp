@@ -3,13 +3,13 @@ package com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ineedyourcode.githubapiapp.domain.usecase.SearchGitHubUserUsecase
+import com.ineedyourcode.githubapiapp.domain.usecase.SearchUserUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.UserSearchState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
-class UserSearchViewModel(private val repository: SearchGitHubUserUsecase) : ViewModel() {
+class UserSearchViewModel(private val repository: SearchUserUsecase) : ViewModel() {
 
     private val liveData: MutableLiveData<UserSearchState> = MutableLiveData()
 
@@ -20,7 +20,7 @@ class UserSearchViewModel(private val repository: SearchGitHubUserUsecase) : Vie
     fun getMostPopularUsers() {
         liveData.postValue(UserSearchState.UserSearchProgress)
         compositeDisposable.add(repository.getMostPopularUsers().subscribeBy(
-            onSuccess = { liveData.postValue(UserSearchState.UserSearchSuccess(it.items)) },
+            onSuccess = { liveData.postValue(UserSearchState.UserSearchSuccess(it)) },
             onError = {
                 liveData.postValue(it.message?.let { message ->
                     MessageMapper.DirectString(message)
@@ -34,8 +34,8 @@ class UserSearchViewModel(private val repository: SearchGitHubUserUsecase) : Vie
         liveData.postValue(UserSearchState.UserSearchProgress)
         compositeDisposable.add(repository.searchUser(searchingRequest).subscribeBy(
             onSuccess = { searchingResult ->
-                if (searchingResult.items.isNotEmpty()) {
-                    liveData.postValue(UserSearchState.UserSearchSuccess(searchingResult.items))
+                if (searchingResult.isNotEmpty()) {
+                    liveData.postValue(UserSearchState.UserSearchSuccess(searchingResult))
                 } else {
                     liveData.postValue(
                         UserSearchState.UserSearchError(MessageMapper.StringResource(

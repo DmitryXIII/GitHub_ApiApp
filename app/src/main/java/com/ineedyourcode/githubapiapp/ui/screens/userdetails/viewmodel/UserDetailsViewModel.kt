@@ -3,7 +3,7 @@ package com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ineedyourcode.githubapiapp.domain.usecase.GetGitHubUserUsecase
+import com.ineedyourcode.githubapiapp.domain.usecase.GetUserUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.UserDetailsState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class UserDetailsViewModel(
-    private val repository: GetGitHubUserUsecase,
+    private val repository: GetUserUsecase,
 ) : ViewModel() {
 
     private val liveData: MutableLiveData<UserDetailsState> = MutableLiveData()
@@ -22,7 +22,7 @@ class UserDetailsViewModel(
 
     fun getUser(login: String) {
         liveData.postValue(UserDetailsState.UserDetailsProgress)
-        compositeDisposable.add(repository.getGitHubUser(login).subscribeBy(
+        compositeDisposable.add(repository.getUserProfile(login).subscribeBy(
             onSuccess = { user ->
                 if (user.login.isNotEmpty()) {
                     liveData.postValue(UserDetailsState.UserDetailsSuccess(user))
@@ -40,7 +40,7 @@ class UserDetailsViewModel(
     }
 
     private fun getUserGitHubRepositories(login: String) {
-        compositeDisposable.add(repository.getGitHubUserRepositoriesList(login)
+        compositeDisposable.add(repository.getUserRepositoriesList(login)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
             onSuccess = {

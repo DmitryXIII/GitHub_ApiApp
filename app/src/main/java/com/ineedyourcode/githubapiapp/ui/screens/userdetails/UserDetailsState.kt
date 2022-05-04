@@ -1,16 +1,16 @@
 package com.ineedyourcode.githubapiapp.ui.screens.userdetails
 
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
+import com.ineedyourcode.githubapiapp.domain.entity.UserProfile
+import com.ineedyourcode.githubapiapp.domain.entity.UserProjectRepository
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 
 sealed class UserDetailsState {
     object UserDetailsProgress : UserDetailsState()
 
-    data class UserDetailsSuccess(val user: GitHubUserProfile) : UserDetailsState()
+    data class UserDetailsSuccess(val user: UserProfile) : UserDetailsState()
 
     data class UserRepositoriesSuccess(
-        val repositoriesList: List<GitHubUserRepository>,
+        val repositoriesList: List<UserProjectRepository>,
     ) : UserDetailsState()
 
     data class UserDetailsError(val error: MessageMapper) : UserDetailsState()

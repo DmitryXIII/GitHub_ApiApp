@@ -17,7 +17,9 @@ private const val ARG_REPOSITORY_OWNER = "ARG_REPOSITORY_OWNER"
 private const val ARG_REPOSITORY_NAME = "ARG_REPOSITORY_NAME"
 
 class UserRepositoryDetailsFragment :
-    BaseFragment<FragmentUserRepositoryDetailsBinding>(FragmentUserRepositoryDetailsBinding::inflate) {
+    BaseFragment<FragmentUserRepositoryDetailsBinding>(
+        FragmentUserRepositoryDetailsBinding::inflate
+    ) {
 
     private val viewModel: UserGitHubRepositoryViewModel by viewModels {
         UserGitHubRepositoryDetailsViewModelFactory(App.repository)
@@ -60,8 +62,8 @@ class UserRepositoryDetailsFragment :
                     repositoryDetailsNameTextView.text = state.repository.name
                     repositoryDetailsIdTextView.text = state.repository.id
                     repositoryDetailsCreatedAtTextView.text =
-                        state.repository.createdAt?.substring(0, 10)
-                    repositoryDetailsHtmlUrlTextView.text = state.repository.htmlUrl
+                        state.repository.createDate.substring(0, 10)
+                    repositoryDetailsHtmlUrlTextView.text = state.repository.url
                     repositoryDetailsLanguageTextView.text = state.repository.language
                     repositoryDetailsDescriptionTextView.text = state.repository.description
                     setInProgressEndScreenVisibility(progressBar, userRepositoryDetailsLayout)

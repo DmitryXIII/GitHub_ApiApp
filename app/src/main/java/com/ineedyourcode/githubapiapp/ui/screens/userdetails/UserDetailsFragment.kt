@@ -69,11 +69,11 @@ class UserDetailsFragment :
                 }
 
                 is UserDetailsState.UserDetailsSuccess -> {
-                    userDetailsAvatarImageView.load(state.user.avatarUrl)
+                    userDetailsAvatarImageView.load(state.user.avatar)
                     userDetailsLoginTextView.text = state.user.login
                     userDetailsNameTextView.text = state.user.name
-                    userDetailsIdTextView.text = state.user.id.toString()
-                    userDetailsCreatedAtTextView.text = state.user.createdAt.substring(0, 10)
+                    userDetailsIdTextView.text = state.user.id
+                    userDetailsCreatedAtTextView.text = state.user.registrationDate.substring(0, 10)
                     userDetailsPublicReposTextView.text = state.user.publicRepos.toString()
                 }
 
