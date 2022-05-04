@@ -3,13 +3,13 @@ package com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ineedyourcode.githubapiapp.data.usecase.DataSearchGitHubUserUsecase
+import com.ineedyourcode.githubapiapp.domain.usecase.SearchGitHubUserUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.UserSearchState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
-class UserSearchViewModel(private val repository: DataSearchGitHubUserUsecase) : ViewModel() {
+class UserSearchViewModel(private val repository: SearchGitHubUserUsecase) : ViewModel() {
 
     private val liveData: MutableLiveData<UserSearchState> = MutableLiveData()
 

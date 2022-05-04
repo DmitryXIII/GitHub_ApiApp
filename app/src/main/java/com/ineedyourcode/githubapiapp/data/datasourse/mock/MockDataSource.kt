@@ -1,12 +1,13 @@
 package com.ineedyourcode.githubapiapp.data.datasourse.mock
 
+import com.ineedyourcode.githubapiapp.data.utils.convertGitHubUserProfileToSearchItem
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
 import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
 import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 import io.reactivex.rxjava3.core.Single
 
-class MockRepository : GitHubApi {
+class MockDataSource : GitHubApi {
     private val mockGitHubUserList = mutableListOf<GitHubUserProfile>()
     private val mockGitHubUserRepositoriesList = mutableListOf<GitHubUserRepository>()
 
@@ -16,7 +17,8 @@ class MockRepository : GitHubApi {
     }
 
     override fun searchUser(
-        searchingRequest: String): Single<GitHubUserSearchResult> {
+        searchingRequest: String,
+    ): Single<GitHubUserSearchResult> {
         val searchingResult = generateMockSearchResult(searchingRequest)
         return Single.create { emitter ->
             if (searchingResult.totalCount > 0) {
@@ -29,7 +31,7 @@ class MockRepository : GitHubApi {
 
     override fun getMostPopularUsers(): Single<GitHubUserSearchResult> {
         val mostPopularUserSearchResult = generateMockMostPopularResult()
-        return Single.create {emitter ->
+        return Single.create { emitter ->
             if (mostPopularUserSearchResult.totalCount > 0) {
                 emitter.onSuccess(mostPopularUserSearchResult)
             } else {
@@ -40,18 +42,18 @@ class MockRepository : GitHubApi {
 
     override fun getGitHubUser(login: String): Single<GitHubUserProfile> {
         var isUserFound = false
-      return  Single.create { emitter ->
-          for (user in mockGitHubUserList) {
-              if (user.login == login) {
-                  emitter.onSuccess(user)
-                  isUserFound = true
-                  break
-              }
-          }
-          if (!isUserFound) {
-              emitter.onError(Exception("Пользователь не найден"))
-          }
-      }
+        return Single.create { emitter ->
+            for (user in mockGitHubUserList) {
+                if (user.login == login) {
+                    emitter.onSuccess(user)
+                    isUserFound = true
+                    break
+                }
+            }
+            if (!isUserFound) {
+                emitter.onError(Exception("Пользователь не найден"))
+            }
+        }
 
     }
 
@@ -72,7 +74,8 @@ class MockRepository : GitHubApi {
 
     override fun getGitHubRepository(
         repoOwnerLogin: String,
-        repoName: String): Single<GitHubUserRepository> {
+        repoName: String,
+    ): Single<GitHubUserRepository> {
         var isRepositoryFound = false
 
         return Single.create { emitter ->
@@ -123,15 +126,21 @@ class MockRepository : GitHubApi {
     }
 
     private fun generateMockSearchResult(searchingRequest: String): GitHubUserSearchResult {
-        val foundUsersList =
-            mockGitHubUserList.filter { user ->
-                user.login.lowercase().contains(searchingRequest.lowercase())
-            }
-        return GitHubUserSearchResult(foundUsersList.size, false, foundUsersList)
+
+        val filteredList = mockGitHubUserList.filter { user ->
+            user.login.lowercase().contains(searchingRequest.lowercase())
+        }
+
+        val foundSearchItemsList =
+            filteredList.map { user -> convertGitHubUserProfileToSearchItem(user) }
+
+        return GitHubUserSearchResult(foundSearchItemsList.size, false, foundSearchItemsList)
     }
 
     private fun generateMockMostPopularResult(): GitHubUserSearchResult {
-        val foundMostPopularUsersList = mockGitHubUserList
+        val foundMostPopularUsersList =
+            mockGitHubUserList.map { user -> convertGitHubUserProfileToSearchItem(user) }
+
         return GitHubUserSearchResult(foundMostPopularUsersList.size,
             false,
             foundMostPopularUsersList)

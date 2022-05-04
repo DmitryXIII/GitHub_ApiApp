@@ -3,7 +3,7 @@ package com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ineedyourcode.githubapiapp.data.usecase.DataGetGitHubUserUsecase
+import com.ineedyourcode.githubapiapp.domain.usecase.GetGitHubUserUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.UserDetailsState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class UserDetailsViewModel(
-    private val repository: DataGetGitHubUserUsecase,
+    private val repository: GetGitHubUserUsecase,
 ) : ViewModel() {
 
     private val liveData: MutableLiveData<UserDetailsState> = MutableLiveData()

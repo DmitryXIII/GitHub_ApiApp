@@ -9,4 +9,6 @@
     <string name="repository_details_url">URL:</string>
     <string name="empty_text" />
     <string name="response_is_empty">Нет результатов по данному запросу</string>
+    <string name="activity_not_is_user_search_controller">Активити должна имплементировать UserSearchController</string>
+    <string name="activity_not_is_user_details_controller">Активити должна имплементировать UserDetailsController</string>
 </resources>

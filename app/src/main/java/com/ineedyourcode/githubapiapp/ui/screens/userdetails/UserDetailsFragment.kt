@@ -1,5 +1,6 @@
 package com.ineedyourcode.githubapiapp.ui.screens.userdetails
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -13,7 +14,6 @@ import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.UserDetailsRecyclerViewAdapter
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel.UserDetailsViewModel
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel.UserDetailsViewModelFactory
-import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.UserRepositoryDetailsFragment
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
@@ -24,13 +24,29 @@ private const val ARG_USER_LOGIN = "ARG_USER_LOGIN"
 class UserDetailsFragment :
     BaseFragment<FragmentUserDetailsBinding>(FragmentUserDetailsBinding::inflate) {
 
+    private val controller by lazy { activity as UserDetailsController }
+
     private val viewModel: UserDetailsViewModel by viewModels {
         UserDetailsViewModelFactory(App.repository)
     }
 
     companion object {
         fun newInstance(login: String): UserDetailsFragment {
-            return UserDetailsFragment().apply { arguments = bundleOf(ARG_USER_LOGIN to login) }
+            return UserDetailsFragment().apply {
+                arguments = bundleOf(ARG_USER_LOGIN to login)
+            }
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        checkIsActivityImplementsController()
+    }
+
+    private fun checkIsActivityImplementsController() {
+        if (activity !is UserDetailsController) {
+            throw IllegalStateException(
+                getString(R.string.activity_not_is_user_details_controller))
         }
     }
 
@@ -53,14 +69,12 @@ class UserDetailsFragment :
                 }
 
                 is UserDetailsState.UserDetailsSuccess -> {
-//                    viewModel.getUserGitHubRepositories(state.user.login)
                     userDetailsAvatarImageView.load(state.user.avatarUrl)
                     userDetailsLoginTextView.text = state.user.login
                     userDetailsNameTextView.text = state.user.name
                     userDetailsIdTextView.text = state.user.id.toString()
-                    userDetailsCreatedAtTextView.text = state.user.createdAt?.substring(0, 10)
+                    userDetailsCreatedAtTextView.text = state.user.createdAt.substring(0, 10)
                     userDetailsPublicReposTextView.text = state.user.publicRepos.toString()
-//                    setInProgressEndScreenVisibility(progressBar, userDetailsLayout)
                 }
 
                 is UserDetailsState.UserRepositoriesSuccess -> {
@@ -69,16 +83,10 @@ class UserDetailsFragment :
                         adapter =
                             UserDetailsRecyclerViewAdapter(object : OnRepositoryItemClickListener {
                                 override fun onUserSearchItemClickListener(repositoryName: String) {
-                                    parentFragmentManager
-                                        .beginTransaction()
-                                        .add(R.id.main_fragment_container_view,
-                                            UserRepositoryDetailsFragment.newInstance(
-                                                userDetailsLoginTextView.text.toString(),
-                                                repositoryName))
-                                        .addToBackStack("")
-                                        .commit()
+                                    controller.showRepositoryDetails(
+                                        userDetailsLoginTextView.text.toString(),
+                                        repositoryName)
                                 }
-
                             }).apply {
                                 setData(state.repositoriesList)
                             }
@@ -93,4 +101,8 @@ class UserDetailsFragment :
             }
         }
     }
+}
+
+interface UserDetailsController {
+    fun showRepositoryDetails(repositoryOwnerLogin: String, repositoryName: String)
 }

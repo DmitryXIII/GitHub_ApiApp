@@ -1,61 +1,53 @@
 package com.ineedyourcode.githubapiapp.data.repository
 
-import com.ineedyourcode.githubapiapp.data.datasourse.mock.MockRepository
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.RetrofitGitHubRepository
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserProfileDto
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserRepositoryDto
-import com.ineedyourcode.githubapiapp.data.dto.GitHubUserSearchResultDto
-import com.ineedyourcode.githubapiapp.data.utils.convertGitHubSearchResultEntityToDto
-import com.ineedyourcode.githubapiapp.data.utils.convertGitHubUserEntityToDto
-import com.ineedyourcode.githubapiapp.data.utils.convertGitHubUserRepositoriesEntityListToDto
-import com.ineedyourcode.githubapiapp.data.utils.convertGitHubUserRepositoryEntityToDto
+import com.ineedyourcode.githubapiapp.data.datasourse.mock.MockDataSource
+import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.RetrofitDataSource
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
+import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
+import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
 import io.reactivex.rxjava3.core.Single
 
 private enum class DataSourceType {
-    DATA_SOURCE_TYPE_MOCK,
-    DATA_SOURCE_TYPE_RETROFIT,
+    MOCK,
+    RETROFIT,
 }
 
-class DataRepository : IDataRepository {
-    private val dataSourceType: DataSourceType = DataSourceType.DATA_SOURCE_TYPE_RETROFIT
+class DataRepository : GitHubApi {
+    private val dataSourceType: DataSourceType = DataSourceType.RETROFIT
 
     private val dataSource = when (dataSourceType) {
-        DataSourceType.DATA_SOURCE_TYPE_MOCK -> {
-            MockRepository()
+        DataSourceType.MOCK -> {
+            MockDataSource()
         }
 
-        DataSourceType.DATA_SOURCE_TYPE_RETROFIT -> {
-            RetrofitGitHubRepository()
+        DataSourceType.RETROFIT -> {
+            RetrofitDataSource()
         }
     }
 
-    override fun searchUser(searchingRequest: String): Single<GitHubUserSearchResultDto> {
+    override fun searchUser(searchingRequest: String): Single<GitHubUserSearchResult> {
         return dataSource.searchUser(searchingRequest)
-            .map { convertGitHubSearchResultEntityToDto(it) }
     }
 
-    override fun getMostPopularUsers(): Single<GitHubUserSearchResultDto> {
+    override fun getMostPopularUsers(): Single<GitHubUserSearchResult> {
         return dataSource.getMostPopularUsers()
-            .map { convertGitHubSearchResultEntityToDto(it) }
     }
 
-    override fun getGitHubUser(login: String): Single<GitHubUserProfileDto> {
+    override fun getGitHubUser(login: String): Single<GitHubUserProfile> {
         return dataSource.getGitHubUser(login)
-            .map { convertGitHubUserEntityToDto(it) }
     }
 
     override fun getGitHubUserRepositoriesList(
         login: String,
-    ): Single<List<GitHubUserRepositoryDto>> {
+    ): Single<List<GitHubUserRepository>> {
         return dataSource.getGitHubUserRepositoriesList(login)
-            .map { convertGitHubUserRepositoriesEntityListToDto(it) }
     }
 
     override fun getGitHubRepository(
         repoOwnerLogin: String,
         repoName: String,
-    ): Single<GitHubUserRepositoryDto> {
+    ): Single<GitHubUserRepository> {
         return dataSource.getGitHubRepository(repoOwnerLogin, repoName)
-            .map { convertGitHubUserRepositoryEntityToDto(it) }
     }
 }
