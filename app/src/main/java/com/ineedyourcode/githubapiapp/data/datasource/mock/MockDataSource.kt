@@ -14,78 +14,42 @@ class MockDataSource : UsecaseRepository {
         generateMockGitHubUserRepositoriesList()
     }
 
-    override fun searchUser(
-        searchingRequest: String,
-    ): Single<List<UserProfile>> {
-        val searchingResult = generateMockSearchResult(searchingRequest)
-        return Single.create { emitter ->
-            if (searchingResult.isNotEmpty()) {
-                emitter.onSuccess(searchingResult)
-            } else {
-                emitter.onError(Exception("По данному запросу нет результатов"))
-            }
-        }
+    override fun searchUser(searchingRequest: String): Single<List<UserProfile>> {
+        return Single.just(generateMockSearchResult(searchingRequest))
     }
 
     override fun getMostPopularUsers(): Single<List<UserProfile>> {
-        val mostPopularUserSearchResult = generateMockMostPopularResult()
-        return Single.create { emitter ->
-            if (mostPopularUserSearchResult.isNotEmpty()) {
-                emitter.onSuccess(mostPopularUserSearchResult)
-            } else {
-                emitter.onError(Exception("По данному запросу нет результатов"))
-            }
-        }
+        return Single.just(generateMockMostPopularResult())
     }
 
     override fun getUserProfile(login: String): Single<UserProfile> {
-        var isUserFound = false
         return Single.create { emitter ->
-            for (user in mockUserProfileList) {
-                if (user.login == login) {
-                    emitter.onSuccess(user)
-                    isUserFound = true
-                    break
-                }
-            }
-            if (!isUserFound) {
+            val user: UserProfile? = mockUserProfileList.find { user -> user.login == login }
+            if (user != null) {
+                emitter.onSuccess(user)
+            } else {
                 emitter.onError(Exception("Пользователь не найден"))
             }
         }
-
     }
 
     override fun getUserRepositoriesList(login: String): Single<List<UserProjectRepository>> {
-        val foundRepositoriesList =
-            mockUserRepositoriesList.filter { repository ->
-                repository.ownerLogin == login
-            }
-
-        return Single.create { emitter ->
-            if (foundRepositoriesList.isNotEmpty()) {
-                emitter.onSuccess(foundRepositoriesList)
-            } else {
-                emitter.onError(Exception("Ошибка получения данных"))
-            }
-        }
+        return Single.just(mockUserRepositoriesList.filter { repository ->
+            repository.ownerLogin == login
+        })
     }
 
     override fun getProjectRepository(
         repoOwnerLogin: String,
         repoName: String,
     ): Single<UserProjectRepository> {
-        var isRepositoryFound = false
-
         return Single.create { emitter ->
-            for (repository in mockUserRepositoriesList) {
-                if (repository.name == repoName && repository.ownerLogin == repoOwnerLogin) {
-                    emitter.onSuccess(repository)
-                    isRepositoryFound = true
-                    break
-                }
+            val repository: UserProjectRepository? = mockUserRepositoriesList.find { repository ->
+                repository.ownerLogin == repoOwnerLogin && repository.name == repoName
             }
-
-            if (!isRepositoryFound) {
+            if (repository != null) {
+                emitter.onSuccess(repository)
+            } else {
                 emitter.onError(Exception("Репозиторий не найден"))
             }
         }

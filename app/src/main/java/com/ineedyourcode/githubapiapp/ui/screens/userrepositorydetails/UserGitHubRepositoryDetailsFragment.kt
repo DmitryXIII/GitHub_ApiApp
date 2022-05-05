@@ -3,10 +3,7 @@ package com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
-import com.ineedyourcode.githubapiapp.App
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserRepositoryDetailsBinding
-import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.viewmodel.UserGitHubRepositoryDetailsViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.viewmodel.UserGitHubRepositoryViewModel
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
