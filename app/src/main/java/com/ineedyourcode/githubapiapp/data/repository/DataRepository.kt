@@ -1,29 +1,11 @@
 package com.ineedyourcode.githubapiapp.data.repository
 
-import com.ineedyourcode.githubapiapp.data.datasource.mock.MockDataSource
-import com.ineedyourcode.githubapiapp.data.datasource.retrofit.RetrofitDataSource
 import com.ineedyourcode.githubapiapp.domain.entity.UserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.UserProjectRepository
 import com.ineedyourcode.githubapiapp.domain.repository.UsecaseRepository
 import io.reactivex.rxjava3.core.Single
 
-private enum class DataSourceType {
-    MOCK,
-    RETROFIT,
-}
-
-class DataRepository : UsecaseRepository {
-    private val dataSourceType: DataSourceType = DataSourceType.RETROFIT
-
-    private val dataSource = when (dataSourceType) {
-        DataSourceType.MOCK -> {
-            MockDataSource()
-        }
-
-        DataSourceType.RETROFIT -> {
-            RetrofitDataSource()
-        }
-    }
+class DataRepository(private val dataSource: UsecaseRepository) : UsecaseRepository {
 
     override fun searchUser(searchingRequest: String): Single<List<UserProfile>> {
         return dataSource.searchUser(searchingRequest)
