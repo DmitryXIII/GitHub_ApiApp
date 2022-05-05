@@ -27,31 +27,32 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_GIT_HUB_API_URL = "https://api.github.com/"
 private const val BASE_URL_STRING_NAME = "base_api_url"
+private const val MOCK_TYPE_NAME = "mock"
+private const val DATA_REPOSITORY_NAME = "data_repository"
+private const val RETROFIT_TYPE_NAME = "retrofit"
 
 private enum class DataSourceType {
     MOCK,
     RETROFIT,
 }
 
-private val dataSourceType = DataSourceType.RETROFIT
+private val dataSourceType = DataSourceType.MOCK
 
 val appModule = module {
     viewModel { UserDetailsViewModel(get()) }
     viewModel { UserSearchViewModel(get()) }
     viewModel { UserGitHubRepositoryViewModel(get()) }
 
-    single<GetUserUsecase> { DataRepository(get()) }
-    single<SearchUserUsecase> { DataRepository(get()) }
-    single<GetProjectRepositoryUsecase> { DataRepository(get()) }
+    single<GetUserUsecase> { get<UsecaseRepository>(named(DATA_REPOSITORY_NAME)) }
+    single<SearchUserUsecase> { get<UsecaseRepository>(named(DATA_REPOSITORY_NAME)) }
+    single<GetProjectRepositoryUsecase> { get<UsecaseRepository>(named(DATA_REPOSITORY_NAME)) }
 
-    when (dataSourceType) {
-        DataSourceType.MOCK -> {
-            single<UsecaseRepository> { MockDataSource() }
-        }
-        DataSourceType.RETROFIT -> {
-            single<UsecaseRepository> { RetrofitDataSource(get(), get()) }
-        }
+    single<UsecaseRepository>(named(DATA_REPOSITORY_NAME)) {
+        DataRepository(get(named(checkDataSourceType())))
     }
+
+    single<UsecaseRepository>(named(MOCK_TYPE_NAME)) { MockDataSource() }
+    single<UsecaseRepository>(named(RETROFIT_TYPE_NAME)) { RetrofitDataSource(get(), get()) }
 
     single {
         Retrofit.Builder()
@@ -79,4 +80,15 @@ val appModule = module {
     single { RetrofitGitHubApi::class.java }
 
     factory { DtoMapper() }
+}
+
+private fun checkDataSourceType(): String {
+    return when (dataSourceType) {
+        DataSourceType.MOCK -> {
+            MOCK_TYPE_NAME
+        }
+        DataSourceType.RETROFIT -> {
+            RETROFIT_TYPE_NAME
+        }
+    }
 }
