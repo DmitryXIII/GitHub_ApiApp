@@ -14,15 +14,18 @@ import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel.UserSearchViewModel
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel.UserSearchViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.utils.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserSearchFragment :
     BaseFragment<FragmentUserSearchBinding>(FragmentUserSearchBinding::inflate) {
 
     private val controller by lazy { activity as UserSearchController }
 
-    private val viewModel: UserSearchViewModel by viewModels {
-        UserSearchViewModelFactory(App.repository)
-    }
+    private val viewModel: UserSearchViewModel by viewModel()
+
+//    private val viewModel: UserSearchViewModel by viewModels {
+//        UserSearchViewModelFactory(App.repository)
+//    }
 
     private lateinit var userSearchAdapter: UserSearchRecyclerViewAdapter
 

@@ -18,6 +18,7 @@ import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.showErrorSnack
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val ARG_USER_LOGIN = "ARG_USER_LOGIN"
 
@@ -26,9 +27,11 @@ class UserDetailsFragment :
 
     private val controller by lazy { activity as UserDetailsController }
 
-    private val viewModel: UserDetailsViewModel by viewModels {
-        UserDetailsViewModelFactory(App.repository)
-    }
+    private val viewModel: UserDetailsViewModel by viewModel()
+
+//    private val viewModel: UserDetailsViewModel by viewModels {
+//        UserDetailsViewModelFactory(App.repository)
+//    }
 
     companion object {
         fun newInstance(login: String): UserDetailsFragment {

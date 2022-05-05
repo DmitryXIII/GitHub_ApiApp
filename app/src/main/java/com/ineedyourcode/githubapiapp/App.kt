@@ -1,14 +1,20 @@
 package com.ineedyourcode.githubapiapp
 
 import android.app.Application
-import com.ineedyourcode.githubapiapp.data.repository.DataRepository
-import com.ineedyourcode.githubapiapp.domain.repository.UsecaseRepository
+import com.ineedyourcode.githubapiapp.di.appModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 class App : Application() {
 
-    companion object {
-        val repository: UsecaseRepository by lazy {
-            DataRepository()
+    override fun onCreate() {
+        super.onCreate()
+        startKoin {
+            androidLogger(Level.ERROR)
+            androidContext(this@App)
+            modules(appModule)
         }
     }
 }

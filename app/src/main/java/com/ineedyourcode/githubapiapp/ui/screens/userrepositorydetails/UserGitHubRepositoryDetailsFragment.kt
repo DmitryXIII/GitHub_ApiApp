@@ -12,6 +12,7 @@ import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.showErrorSnack
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val ARG_REPOSITORY_OWNER = "ARG_REPOSITORY_OWNER"
 private const val ARG_REPOSITORY_NAME = "ARG_REPOSITORY_NAME"
@@ -21,9 +22,7 @@ class UserRepositoryDetailsFragment :
         FragmentUserRepositoryDetailsBinding::inflate
     ) {
 
-    private val viewModel: UserGitHubRepositoryViewModel by viewModels {
-        UserGitHubRepositoryDetailsViewModelFactory(App.repository)
-    }
+    private val viewModel: UserGitHubRepositoryViewModel by viewModel()
 
     companion object {
         fun newInstance(

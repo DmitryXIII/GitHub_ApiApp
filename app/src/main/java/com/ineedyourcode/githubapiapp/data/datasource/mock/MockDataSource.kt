@@ -1,4 +1,4 @@
-package com.ineedyourcode.githubapiapp.data.datasourse.mock
+package com.ineedyourcode.githubapiapp.data.datasource.mock
 
 import com.ineedyourcode.githubapiapp.domain.entity.UserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.UserProjectRepository

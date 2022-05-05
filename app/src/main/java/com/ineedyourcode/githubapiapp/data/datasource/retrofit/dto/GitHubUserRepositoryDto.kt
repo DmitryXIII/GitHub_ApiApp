@@ -1,4 +1,4 @@
-package com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto
+package com.ineedyourcode.githubapiapp.data.datasource.retrofit.dto
 
 import com.google.gson.annotations.SerializedName
 

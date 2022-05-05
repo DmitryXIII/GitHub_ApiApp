@@ -1,7 +1,7 @@
 package com.ineedyourcode.githubapiapp.data.repository
 
-import com.ineedyourcode.githubapiapp.data.datasourse.mock.MockDataSource
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.RetrofitDataSource
+import com.ineedyourcode.githubapiapp.data.datasource.mock.MockDataSource
+import com.ineedyourcode.githubapiapp.data.datasource.retrofit.RetrofitDataSource
 import com.ineedyourcode.githubapiapp.domain.entity.UserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.UserProjectRepository
 import com.ineedyourcode.githubapiapp.domain.repository.UsecaseRepository

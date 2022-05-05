@@ -1,8 +1,9 @@
-package com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dtomapper
+package com.ineedyourcode.githubapiapp.data.datasource.retrofit.dtomapper
 
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto.GitHubUserProfileDto
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto.GitHubUserRepositoryDto
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto.GitHubUserSearchResultDto
+import com.ineedyourcode.githubapiapp.data.datasource.retrofit.dto.GitHubSearchItemDto
+import com.ineedyourcode.githubapiapp.data.datasource.retrofit.dto.GitHubUserProfileDto
+import com.ineedyourcode.githubapiapp.data.datasource.retrofit.dto.GitHubUserRepositoryDto
+import com.ineedyourcode.githubapiapp.data.datasource.retrofit.dto.GitHubUserSearchResultDto
 import com.ineedyourcode.githubapiapp.domain.entity.UserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.UserProjectRepository
 
@@ -54,7 +55,9 @@ class DtoMapper {
         }
     }
 
-    private fun convertGitHubSearchItemDtoToUserProfile(searchItem: GitHubUserSearchResultDto.GitHubSearchItemDto): UserProfile {
+    private fun convertGitHubSearchItemDtoToUserProfile(
+        searchItem: GitHubSearchItemDto,
+    ): UserProfile {
         return UserProfile(
             id = searchItem.id.toString(),
             login = searchItem.login,

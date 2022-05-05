@@ -1,7 +1,7 @@
-package com.ineedyourcode.githubapiapp.data.datasourse.retrofit
+package com.ineedyourcode.githubapiapp.data.datasource.retrofit
 
 import com.google.gson.GsonBuilder
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dtomapper.DtoMapper
+import com.ineedyourcode.githubapiapp.data.datasource.retrofit.dtomapper.DtoMapper
 import com.ineedyourcode.githubapiapp.domain.entity.UserProfile
 import com.ineedyourcode.githubapiapp.domain.entity.UserProjectRepository
 import com.ineedyourcode.githubapiapp.domain.repository.UsecaseRepository
