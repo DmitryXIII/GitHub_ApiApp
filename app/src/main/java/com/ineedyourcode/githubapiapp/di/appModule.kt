@@ -6,6 +6,7 @@ import com.ineedyourcode.githubapiapp.data.datasource.retrofit.RetrofitDataSourc
 import com.ineedyourcode.githubapiapp.data.datasource.retrofit.RetrofitGitHubApi
 import com.ineedyourcode.githubapiapp.data.datasource.retrofit.dtomapper.DtoMapper
 import com.ineedyourcode.githubapiapp.data.repository.DataRepository
+import com.ineedyourcode.githubapiapp.domain.repository.UsecaseRepository
 import com.ineedyourcode.githubapiapp.domain.usecase.GetProjectRepositoryUsecase
 import com.ineedyourcode.githubapiapp.domain.usecase.GetUserUsecase
 import com.ineedyourcode.githubapiapp.domain.usecase.SearchUserUsecase
@@ -24,6 +25,9 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
+private const val BASE_GIT_HUB_API_URL = "https://api.github.com/"
+private const val BASE_URL_STRING_NAME = "base_api_url"
+
 private enum class DataSourceType {
     MOCK,
     RETROFIT,
@@ -32,43 +36,47 @@ private enum class DataSourceType {
 private val dataSourceType = DataSourceType.RETROFIT
 
 val appModule = module {
-    single(named("base_url")) { "https://api.github.com/" }
+    viewModel { UserDetailsViewModel(get()) }
+    viewModel { UserSearchViewModel(get()) }
+    viewModel { UserGitHubRepositoryViewModel(get()) }
+
     single<GetUserUsecase> { DataRepository(get()) }
     single<SearchUserUsecase> { DataRepository(get()) }
     single<GetProjectRepositoryUsecase> { DataRepository(get()) }
-    single<CallAdapter.Factory> { RxJava3CallAdapterFactory.create() }
-    single<Converter.Factory> { GsonConverterFactory.create(GsonBuilder().setLenient().create()) }
-    single<Interceptor> { HttpLoggingInterceptor().setLevel(get()) }
-    single { HttpLoggingInterceptor.Level.BODY }
-    single { OkHttpClient.Builder()
-        .addInterceptor(get<Interceptor>())
-        .build()
+
+    when (dataSourceType) {
+        DataSourceType.MOCK -> {
+            single<UsecaseRepository> { MockDataSource() }
+        }
+        DataSourceType.RETROFIT -> {
+            single<UsecaseRepository> { RetrofitDataSource(get(), get()) }
+        }
     }
 
     single {
         Retrofit.Builder()
-            .baseUrl(get<String>(named("base_url")))
+            .baseUrl(get<String>(named(BASE_URL_STRING_NAME)))
             .addConverterFactory(get())
             .addCallAdapterFactory(get())
             .client(get())
             .build()
-            .create(RetrofitGitHubApi::class.java)
+            .create(get<Class<RetrofitGitHubApi>>())
     }
+
+    single(named(BASE_URL_STRING_NAME)) { BASE_GIT_HUB_API_URL }
+    single<Converter.Factory> { GsonConverterFactory.create(get()) }
+    single { GsonBuilder().setLenient().create() }
+    single<CallAdapter.Factory> { RxJava3CallAdapterFactory.create() }
 
     single {
-        when (dataSourceType) {
-            DataSourceType.MOCK -> {
-                MockDataSource()
-            }
-            DataSourceType.RETROFIT -> {
-                RetrofitDataSource(get(), get())
-            }
-        }
+        OkHttpClient.Builder()
+            .addInterceptor(get<Interceptor>())
+            .build()
     }
 
-    factory { DtoMapper() }
+    single<Interceptor> { HttpLoggingInterceptor().setLevel(get()) }
+    single { HttpLoggingInterceptor.Level.BODY }
+    single { RetrofitGitHubApi::class.java }
 
-    viewModel { UserDetailsViewModel(get()) }
-    viewModel { UserSearchViewModel(get()) }
-    viewModel { UserGitHubRepositoryViewModel(get()) }
+    factory { DtoMapper() }
 }
