@@ -8,11 +8,11 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
-    AppDependenciesModule::class,
+    RepositoriesDependenciesModule::class,
     RetrofitDependenciesModule::class
 ])
 interface AppDependenciesComponent {
-    fun inject1(userSearchFragment: UserSearchFragment)
-    fun inject2(userDetailsFragment: UserDetailsFragment)
-    fun inject3(userRepositoryDetailsFragment: UserRepositoryDetailsFragment)
+    fun inject(userSearchFragment: UserSearchFragment)
+    fun inject(userDetailsFragment: UserDetailsFragment)
+    fun inject(userRepositoryDetailsFragment: UserRepositoryDetailsFragment)
 }

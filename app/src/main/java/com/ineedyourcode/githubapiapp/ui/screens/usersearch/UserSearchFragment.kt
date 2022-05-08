@@ -34,12 +34,11 @@ class UserSearchFragment :
     override fun onAttach(context: Context) {
         super.onAttach(context)
         checkIsActivityImplementsController()
+        activity?.app?.appDependenciesComponent?.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        activity?.app?.appDependenciesComponent?.inject1(this)
 
         userSearchAdapter = UserSearchRecyclerViewAdapter(object : OnUserSearchItemClickListener {
             override fun onUserSearchItemClickListener(login: String) {

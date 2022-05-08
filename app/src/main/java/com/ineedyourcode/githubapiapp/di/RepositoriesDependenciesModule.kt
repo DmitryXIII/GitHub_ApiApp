@@ -15,39 +15,12 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 private const val MOCK_TYPE_NAME = "mock"
-private const val DATA_REPOSITORY_NAME = "data_repository"
 private const val RETROFIT_TYPE_NAME = "retrofit"
-//private const val BASE_GIT_HUB_API_URL = "https://api.github.com/"
 
-//private lateinit var requiredDataSourceType: String
-//
-//private enum class DataSourceType {
-//    MOCK,
-//    RETROFIT,
-//}
-
-//private val dataSourceType = DataSourceType.MOCK
-//
-//private fun checkDataSourceType() {
-//    requiredDataSourceType = when (dataSourceType) {
-//        DataSourceType.MOCK -> {
-//            MOCK_TYPE_NAME
-//        }
-//        DataSourceType.RETROFIT -> {
-//            RETROFIT_TYPE_NAME
-//        }
-//    }
-//}
+private const val REQUIRED_DATA_SOURCE_TYPE = MOCK_TYPE_NAME
 
 @Module
-class AppDependenciesModule {
-    @Singleton
-    @Provides
-    @Named(DATA_REPOSITORY_NAME)
-    fun provideDataRepository(@Named(RETROFIT_TYPE_NAME) dataSource: UsecaseRepository): UsecaseRepository {
-        return DataRepository(dataSource)
-    }
-
+class RepositoriesDependenciesModule {
     @Singleton
     @Provides
     @Named(MOCK_TYPE_NAME)
@@ -67,19 +40,19 @@ class AppDependenciesModule {
 
     @Singleton
     @Provides
-    fun provideUserDetailsRepository(@Named(RETROFIT_TYPE_NAME) dataSource: UsecaseRepository): GetUserUsecase {
+    fun provideUserDetailsRepository(@Named(REQUIRED_DATA_SOURCE_TYPE) dataSource: UsecaseRepository): GetUserUsecase {
         return DataRepository(dataSource)
     }
 
     @Singleton
     @Provides
-    fun provideUserSearchRepository(@Named(RETROFIT_TYPE_NAME) dataSource: UsecaseRepository): SearchUserUsecase {
+    fun provideUserSearchRepository(@Named(REQUIRED_DATA_SOURCE_TYPE) dataSource: UsecaseRepository): SearchUserUsecase {
         return DataRepository(dataSource)
     }
 
     @Singleton
     @Provides
-    fun provideUserProjectRepository(@Named(RETROFIT_TYPE_NAME) dataSource: UsecaseRepository): GetProjectRepositoryUsecase {
+    fun provideUserProjectRepository(@Named(REQUIRED_DATA_SOURCE_TYPE) dataSource: UsecaseRepository): GetProjectRepositoryUsecase {
         return DataRepository(dataSource)
     }
 

@@ -45,7 +45,7 @@ class UserRepositoryDetailsFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        activity?.app?.appDependenciesComponent?.inject3(this)
+        activity?.app?.appDependenciesComponent?.inject(this)
 
         viewModel.getLiveData().observe(viewLifecycleOwner) {
             renderData(it)

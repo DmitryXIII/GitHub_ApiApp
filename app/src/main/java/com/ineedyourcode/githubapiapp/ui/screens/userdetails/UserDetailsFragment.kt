@@ -46,6 +46,7 @@ class UserDetailsFragment :
     override fun onAttach(context: Context) {
         super.onAttach(context)
         checkIsActivityImplementsController()
+        activity?.app?.appDependenciesComponent?.inject(this)
     }
 
     private fun checkIsActivityImplementsController() {
@@ -57,8 +58,6 @@ class UserDetailsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        activity?.app?.appDependenciesComponent?.inject2(this)
 
         viewModel.getLiveData().observe(viewLifecycleOwner) {
             renderData(it)
