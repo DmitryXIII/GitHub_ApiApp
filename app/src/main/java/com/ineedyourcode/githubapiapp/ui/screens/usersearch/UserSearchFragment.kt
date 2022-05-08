@@ -4,21 +4,30 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ineedyourcode.githubapiapp.R
+import com.ineedyourcode.githubapiapp.app
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserSearchBinding
+import com.ineedyourcode.githubapiapp.domain.usecase.SearchUserUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.OnUserSearchItemClickListener
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.UserSearchRecyclerViewAdapter
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel.UserSearchViewModel
+import com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel.UserSearchViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.utils.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class UserSearchFragment :
     BaseFragment<FragmentUserSearchBinding>(FragmentUserSearchBinding::inflate) {
 
     private val controller by lazy { activity as UserSearchController }
 
-    private val viewModel: UserSearchViewModel by viewModel()
+    @Inject
+    lateinit var repository: SearchUserUsecase
+
+    private val viewModel: UserSearchViewModel by viewModels {
+        UserSearchViewModelFactory(repository)
+    }
 
     private lateinit var userSearchAdapter: UserSearchRecyclerViewAdapter
 
@@ -29,6 +38,8 @@ class UserSearchFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.app?.appDependenciesComponent?.inject1(this)
 
         userSearchAdapter = UserSearchRecyclerViewAdapter(object : OnUserSearchItemClickListener {
             override fun onUserSearchItemClickListener(login: String) {

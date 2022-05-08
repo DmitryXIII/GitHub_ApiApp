@@ -4,18 +4,22 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.ineedyourcode.githubapiapp.R
+import com.ineedyourcode.githubapiapp.app
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserDetailsBinding
+import com.ineedyourcode.githubapiapp.domain.usecase.GetUserUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.OnRepositoryItemClickListener
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.UserDetailsRecyclerViewAdapter
 import com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel.UserDetailsViewModel
+import com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel.UserDetailsViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.showErrorSnack
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 private const val ARG_USER_LOGIN = "ARG_USER_LOGIN"
 
@@ -24,7 +28,12 @@ class UserDetailsFragment :
 
     private val controller by lazy { activity as UserDetailsController }
 
-    private val viewModel: UserDetailsViewModel by viewModel()
+    @Inject
+    lateinit var repository: GetUserUsecase
+
+    private val viewModel: UserDetailsViewModel by viewModels {
+        UserDetailsViewModelFactory(repository)
+    }
 
     companion object {
         fun newInstance(login: String): UserDetailsFragment {
@@ -48,6 +57,9 @@ class UserDetailsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.app?.appDependenciesComponent?.inject2(this)
+
         viewModel.getLiveData().observe(viewLifecycleOwner) {
             renderData(it)
         }

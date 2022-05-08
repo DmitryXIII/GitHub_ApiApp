@@ -3,13 +3,17 @@ package com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
+import com.ineedyourcode.githubapiapp.app
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserRepositoryDetailsBinding
+import com.ineedyourcode.githubapiapp.domain.usecase.GetProjectRepositoryUsecase
 import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.viewmodel.UserGitHubRepositoryViewModel
+import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.viewmodel.UserGitHubRepositoryViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.showErrorSnack
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 private const val ARG_REPOSITORY_OWNER = "ARG_REPOSITORY_OWNER"
 private const val ARG_REPOSITORY_NAME = "ARG_REPOSITORY_NAME"
@@ -19,7 +23,12 @@ class UserRepositoryDetailsFragment :
         FragmentUserRepositoryDetailsBinding::inflate
     ) {
 
-    private val viewModel: UserGitHubRepositoryViewModel by viewModel()
+    @Inject
+    lateinit var repository: GetProjectRepositoryUsecase
+
+    private val viewModel: UserGitHubRepositoryViewModel by viewModels {
+        UserGitHubRepositoryViewModelFactory(repository)
+    }
 
     companion object {
         fun newInstance(
@@ -35,6 +44,8 @@ class UserRepositoryDetailsFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.app?.appDependenciesComponent?.inject3(this)
 
         viewModel.getLiveData().observe(viewLifecycleOwner) {
             renderData(it)

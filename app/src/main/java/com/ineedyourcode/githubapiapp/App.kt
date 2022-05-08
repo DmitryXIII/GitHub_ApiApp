@@ -1,20 +1,22 @@
 package com.ineedyourcode.githubapiapp
 
 import android.app.Application
-import com.ineedyourcode.githubapiapp.di.appModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
-import org.koin.core.logger.Level
+import android.content.Context
+import com.ineedyourcode.githubapiapp.di.AppDependenciesComponent
+import com.ineedyourcode.githubapiapp.di.DaggerAppDependenciesComponent
 
 class App : Application() {
+    lateinit var appDependenciesComponent: AppDependenciesComponent
 
     override fun onCreate() {
         super.onCreate()
-        startKoin {
-            androidLogger(Level.ERROR)
-            androidContext(this@App)
-            modules(appModule)
-        }
+        appDependenciesComponent = DaggerAppDependenciesComponent
+            .builder()
+            .build()
     }
 }
+
+val Context.app: App
+    get() {
+        return applicationContext as App
+    }
