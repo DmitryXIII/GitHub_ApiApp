@@ -1,8 +1,8 @@
-package com.ineedyourcode.githubapiapp.data.datasourse.retrofit
+package com.ineedyourcode.githubapiapp.data.datasource.retrofit
 
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto.GitHubUserProfileDto
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto.GitHubUserRepositoryDto
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.dto.GitHubUserSearchResultDto
+import com.ineedyourcode.githubapiapp.data.datasource.retrofit.dto.GitHubUserProfileDto
+import com.ineedyourcode.githubapiapp.data.datasource.retrofit.dto.GitHubUserRepositoryDto
+import com.ineedyourcode.githubapiapp.data.datasource.retrofit.dto.GitHubUserSearchResultDto
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path

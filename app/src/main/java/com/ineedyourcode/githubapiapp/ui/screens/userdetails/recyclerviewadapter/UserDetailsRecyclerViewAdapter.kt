@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserDetailsRepositoriesListRecyclerViewItemBinding
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
+import com.ineedyourcode.githubapiapp.domain.entity.UserProjectRepository
 
 class UserDetailsRecyclerViewAdapter(val onItemClickListener: OnRepositoryItemClickListener) :
     RecyclerView.Adapter<UserDetailsRecyclerViewAdapter.UserDetailsViewHolder>() {
-    private var repositoriesList = listOf<GitHubUserRepository>()
+    private var repositoriesList = listOf<UserProjectRepository>()
 
-    fun setData(mRepositoriesList: List<GitHubUserRepository>) {
+    fun setData(mRepositoriesList: List<UserProjectRepository>) {
         repositoriesList = mRepositoriesList
     }
 
@@ -31,7 +31,7 @@ class UserDetailsRecyclerViewAdapter(val onItemClickListener: OnRepositoryItemCl
 
     inner class UserDetailsViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
-        fun bind(repository: GitHubUserRepository) {
+        fun bind(repository: UserProjectRepository) {
             FragmentUserDetailsRepositoriesListRecyclerViewItemBinding.bind(itemView).apply {
                 repositoryNameTextView.text = repository.name
                 repositoryLanguageTextView.text = repository.language

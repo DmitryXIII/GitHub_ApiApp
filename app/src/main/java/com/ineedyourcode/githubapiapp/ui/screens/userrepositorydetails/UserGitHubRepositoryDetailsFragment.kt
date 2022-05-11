@@ -3,25 +3,23 @@ package com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
-import com.ineedyourcode.githubapiapp.App
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserRepositoryDetailsBinding
-import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.viewmodel.UserGitHubRepositoryDetailsViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.viewmodel.UserGitHubRepositoryViewModel
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.showErrorSnack
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val ARG_REPOSITORY_OWNER = "ARG_REPOSITORY_OWNER"
 private const val ARG_REPOSITORY_NAME = "ARG_REPOSITORY_NAME"
 
 class UserRepositoryDetailsFragment :
-    BaseFragment<FragmentUserRepositoryDetailsBinding>(FragmentUserRepositoryDetailsBinding::inflate) {
+    BaseFragment<FragmentUserRepositoryDetailsBinding>(
+        FragmentUserRepositoryDetailsBinding::inflate
+    ) {
 
-    private val viewModel: UserGitHubRepositoryViewModel by viewModels {
-        UserGitHubRepositoryDetailsViewModelFactory(App.repository)
-    }
+    private val viewModel: UserGitHubRepositoryViewModel by viewModel()
 
     companion object {
         fun newInstance(
@@ -60,8 +58,8 @@ class UserRepositoryDetailsFragment :
                     repositoryDetailsNameTextView.text = state.repository.name
                     repositoryDetailsIdTextView.text = state.repository.id
                     repositoryDetailsCreatedAtTextView.text =
-                        state.repository.createdAt?.substring(0, 10)
-                    repositoryDetailsHtmlUrlTextView.text = state.repository.htmlUrl
+                        state.repository.createDate.substring(0, 10)
+                    repositoryDetailsHtmlUrlTextView.text = state.repository.url
                     repositoryDetailsLanguageTextView.text = state.repository.language
                     repositoryDetailsDescriptionTextView.text = state.repository.description
                     setInProgressEndScreenVisibility(progressBar, userRepositoryDetailsLayout)

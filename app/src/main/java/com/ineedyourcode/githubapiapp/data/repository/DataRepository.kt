@@ -1,53 +1,34 @@
 package com.ineedyourcode.githubapiapp.data.repository
 
-import com.ineedyourcode.githubapiapp.data.datasourse.mock.MockDataSource
-import com.ineedyourcode.githubapiapp.data.datasourse.retrofit.RetrofitDataSource
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserProfile
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserRepository
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
-import com.ineedyourcode.githubapiapp.domain.githubapi.GitHubApi
+import com.ineedyourcode.githubapiapp.domain.entity.UserProfile
+import com.ineedyourcode.githubapiapp.domain.entity.UserProjectRepository
+import com.ineedyourcode.githubapiapp.domain.repository.UsecaseRepository
 import io.reactivex.rxjava3.core.Single
 
-private enum class DataSourceType {
-    MOCK,
-    RETROFIT,
-}
+class DataRepository(private val dataSource: UsecaseRepository) : UsecaseRepository {
 
-class DataRepository : GitHubApi {
-    private val dataSourceType: DataSourceType = DataSourceType.RETROFIT
-
-    private val dataSource = when (dataSourceType) {
-        DataSourceType.MOCK -> {
-            MockDataSource()
-        }
-
-        DataSourceType.RETROFIT -> {
-            RetrofitDataSource()
-        }
-    }
-
-    override fun searchUser(searchingRequest: String): Single<GitHubUserSearchResult> {
+    override fun searchUser(searchingRequest: String): Single<List<UserProfile>> {
         return dataSource.searchUser(searchingRequest)
     }
 
-    override fun getMostPopularUsers(): Single<GitHubUserSearchResult> {
+    override fun getMostPopularUsers(): Single<List<UserProfile>> {
         return dataSource.getMostPopularUsers()
     }
 
-    override fun getGitHubUser(login: String): Single<GitHubUserProfile> {
-        return dataSource.getGitHubUser(login)
+    override fun getUserProfile(login: String): Single<UserProfile> {
+        return dataSource.getUserProfile(login)
     }
 
-    override fun getGitHubUserRepositoriesList(
+    override fun getUserRepositoriesList(
         login: String,
-    ): Single<List<GitHubUserRepository>> {
-        return dataSource.getGitHubUserRepositoriesList(login)
+    ): Single<List<UserProjectRepository>> {
+        return dataSource.getUserRepositoriesList(login)
     }
 
-    override fun getGitHubRepository(
+    override fun getProjectRepository(
         repoOwnerLogin: String,
         repoName: String,
-    ): Single<GitHubUserRepository> {
-        return dataSource.getGitHubRepository(repoOwnerLogin, repoName)
+    ): Single<UserProjectRepository> {
+        return dataSource.getProjectRepository(repoOwnerLogin, repoName)
     }
 }

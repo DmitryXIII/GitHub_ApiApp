@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserSearchRecyclerViewItemBinding
-import com.ineedyourcode.githubapiapp.domain.entity.GitHubUserSearchResult
+import com.ineedyourcode.githubapiapp.domain.entity.UserProfile
 
 class UserSearchRecyclerViewAdapter(val onItemClickListener: OnUserSearchItemClickListener) :
     RecyclerView.Adapter<UserSearchRecyclerViewAdapter.UserSearchResultViewHolder>() {
-    private var userList = listOf<GitHubUserSearchResult.GitHubSearchItem>()
+    private var userList = listOf<UserProfile>()
 
-    fun setData(mUserList: List<GitHubUserSearchResult.GitHubSearchItem>) {
+    fun setData(mUserList: List<UserProfile>) {
         userList = mUserList
     }
 
@@ -38,12 +38,13 @@ class UserSearchRecyclerViewAdapter(val onItemClickListener: OnUserSearchItemCli
 
     inner class UserSearchResultViewHolder(view: View) :
         RecyclerView.ViewHolder(view) {
-        fun bind(user: GitHubUserSearchResult.GitHubSearchItem) {
+        fun bind(user: UserProfile) {
             FragmentUserSearchRecyclerViewItemBinding.bind(itemView).apply {
                 userLoginTextView.text = user.login
-                userAvatarImageView.load(user.avatarUrl)
+                userAvatarImageView.load(user.avatar)
                 itemView.setOnClickListener {
-                    onItemClickListener.onUserSearchItemClickListener(userList[adapterPosition].login)
+                    onItemClickListener.onUserSearchItemClickListener(
+                        userList[adapterPosition].login)
                 }
             }
         }

@@ -4,25 +4,21 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ineedyourcode.githubapiapp.App
 import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserSearchBinding
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.OnUserSearchItemClickListener
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.UserSearchRecyclerViewAdapter
 import com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel.UserSearchViewModel
-import com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel.UserSearchViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.utils.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class UserSearchFragment :
     BaseFragment<FragmentUserSearchBinding>(FragmentUserSearchBinding::inflate) {
 
     private val controller by lazy { activity as UserSearchController }
 
-    private val viewModel: UserSearchViewModel by viewModels {
-        UserSearchViewModelFactory(App.repository)
-    }
+    private val viewModel: UserSearchViewModel by viewModel()
 
     private lateinit var userSearchAdapter: UserSearchRecyclerViewAdapter
 
