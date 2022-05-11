@@ -1,10 +1,9 @@
-package com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel
+package com.ineedyourcode.githubapiapp.ui.screens.userdetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ineedyourcode.githubapiapp.domain.usecase.GetUserUsecase
-import com.ineedyourcode.githubapiapp.ui.screens.userdetails.UserDetailsState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable

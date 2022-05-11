@@ -1,4 +1,4 @@
-package com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter
+package com.ineedyourcode.githubapiapp.ui.screens.userdetails
 
 import android.view.LayoutInflater
 import android.view.View

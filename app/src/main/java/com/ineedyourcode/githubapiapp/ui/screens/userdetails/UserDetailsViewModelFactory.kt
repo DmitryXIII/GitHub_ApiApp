@@ -1,4 +1,4 @@
-package com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel
+package com.ineedyourcode.githubapiapp.ui.screens.userdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

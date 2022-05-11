@@ -7,8 +7,6 @@ import androidx.fragment.app.viewModels
 import com.ineedyourcode.githubapiapp.app
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserRepositoryDetailsBinding
 import com.ineedyourcode.githubapiapp.domain.usecase.GetProjectRepositoryUsecase
-import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.viewmodel.UserGitHubRepositoryViewModel
-import com.ineedyourcode.githubapiapp.ui.screens.userrepositorydetails.viewmodel.UserGitHubRepositoryViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility
@@ -26,8 +24,8 @@ class UserRepositoryDetailsFragment :
     @Inject
     lateinit var repository: GetProjectRepositoryUsecase
 
-    private val viewModel: UserGitHubRepositoryViewModel by viewModels {
-        UserGitHubRepositoryViewModelFactory(repository)
+    private val viewModel: UserRepositoryViewModel by viewModels {
+        UserRepositoryViewModelFactory(repository)
     }
 
     companion object {
@@ -58,14 +56,14 @@ class UserRepositoryDetailsFragment :
         }
     }
 
-    private fun renderData(state: UserGitHubRepositoryDetailsState) {
+    private fun renderData(state: UserRepositoryDetailsState) {
         with(binding) {
             when (state) {
-                UserGitHubRepositoryDetailsState.UserGitHubRepositoryDetailsProgress -> {
+                UserRepositoryDetailsState.UserRepositoryDetailsProgress -> {
                     setInProgressStartScreenVisibility(progressBar, userRepositoryDetailsLayout)
                 }
 
-                is UserGitHubRepositoryDetailsState.UserGitHubRepositoryDetailsSuccess -> {
+                is UserRepositoryDetailsState.UserRepositoryDetailsSuccess -> {
                     repositoryDetailsNameTextView.text = state.repository.name
                     repositoryDetailsIdTextView.text = state.repository.id
                     repositoryDetailsCreatedAtTextView.text =
@@ -76,7 +74,7 @@ class UserRepositoryDetailsFragment :
                     setInProgressEndScreenVisibility(progressBar, userRepositoryDetailsLayout)
                 }
 
-                is UserGitHubRepositoryDetailsState.UserGitHubRepositoryDetailsError -> {
+                is UserRepositoryDetailsState.UserRepositoryDetailsError -> {
                     setInProgressEndScreenVisibility(progressBar, userRepositoryDetailsLayout)
                     showErrorSnack(root, state.error)
                 }

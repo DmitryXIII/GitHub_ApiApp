@@ -17,7 +17,7 @@ import javax.inject.Singleton
 private const val MOCK_TYPE_NAME = "mock"
 private const val RETROFIT_TYPE_NAME = "retrofit"
 
-private const val REQUIRED_DATA_SOURCE_TYPE = MOCK_TYPE_NAME
+private const val REQUIRED_DATA_SOURCE_TYPE = RETROFIT_TYPE_NAME
 
 @Module
 class RepositoriesDependenciesModule {

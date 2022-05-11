@@ -11,10 +11,6 @@ import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.app
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserDetailsBinding
 import com.ineedyourcode.githubapiapp.domain.usecase.GetUserUsecase
-import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.OnRepositoryItemClickListener
-import com.ineedyourcode.githubapiapp.ui.screens.userdetails.recyclerviewadapter.UserDetailsRecyclerViewAdapter
-import com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel.UserDetailsViewModel
-import com.ineedyourcode.githubapiapp.ui.screens.userdetails.viewmodel.UserDetailsViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.utils.BaseFragment
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressEndScreenVisibility
 import com.ineedyourcode.githubapiapp.ui.utils.setInProgressStartScreenVisibility

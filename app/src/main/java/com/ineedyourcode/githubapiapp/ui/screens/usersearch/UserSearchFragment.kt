@@ -10,10 +10,6 @@ import com.ineedyourcode.githubapiapp.R
 import com.ineedyourcode.githubapiapp.app
 import com.ineedyourcode.githubapiapp.databinding.FragmentUserSearchBinding
 import com.ineedyourcode.githubapiapp.domain.usecase.SearchUserUsecase
-import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.OnUserSearchItemClickListener
-import com.ineedyourcode.githubapiapp.ui.screens.usersearch.recyclerviewadapter.UserSearchRecyclerViewAdapter
-import com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel.UserSearchViewModel
-import com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel.UserSearchViewModelFactory
 import com.ineedyourcode.githubapiapp.ui.utils.*
 import javax.inject.Inject
 

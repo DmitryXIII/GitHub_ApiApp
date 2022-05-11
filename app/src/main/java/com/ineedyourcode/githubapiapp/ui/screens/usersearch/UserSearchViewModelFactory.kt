@@ -1,4 +1,4 @@
-package com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel
+package com.ineedyourcode.githubapiapp.ui.screens.usersearch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
