@@ -1,10 +1,9 @@
-package com.ineedyourcode.githubapiapp.ui.screens.usersearch.viewmodel
+package com.ineedyourcode.githubapiapp.ui.screens.usersearch
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ineedyourcode.githubapiapp.domain.usecase.SearchUserUsecase
-import com.ineedyourcode.githubapiapp.ui.screens.usersearch.UserSearchState
 import com.ineedyourcode.githubapiapp.ui.utils.MessageMapper
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.subscribeBy
